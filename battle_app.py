@@ -29,32 +29,57 @@ with cols[0]:
 # Titolo
 st.markdown("""
 <link href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap" rel="stylesheet">
-<h1 style='font-family: "Pirata One", cursive; text-align: center;'>Battle Optimizer</h1>
+<h1 style="
+    text-align: center;
+    color: #000000;
+    margin: 0;
+    padding-top: 0;
+    font-family: 'Pirata One', cursive;
+    font-size: 48px;">
+    ⚔️ DropDuchy BattleBot ⚔️
+</h1>
 """, unsafe_allow_html=True)
 
+# Istruzioni
+st.markdown(
+    "<p style='text-align: center; font-size: 14px; margin-top: 0; margin-bottom: 0px;'>"
+    "Enter the armies below.<br>Multiple armies of the same type should be separated by spaces."
+    "</p>", unsafe_allow_html=True
+)
 st.markdown("<hr style='margin: 6px 0'>", unsafe_allow_html=True)
 
-# Sezione Blue Team
-st.markdown("### 🟦 Blue Team")
-blue_archers = st.text_input("Archers", key="blue_archers", placeholder="10 20 30")
-blue_swordsmen = st.text_input("Swordsmen", key="blue_swordsmen", placeholder="15 25")
-blue_axemen = st.text_input("Axemen", key="blue_axemen", placeholder="5 10 15")
+col1, col2 = st.columns(2)
 
-# Sezione Red Team
-st.markdown("### 🟥 Red Team")
-red_archers = st.text_input("Archers", key="red_archers", placeholder="10 20 30")
-red_swordsmen = st.text_input("Swordsmen", key="red_swordsmen", placeholder="15 25")
-red_axemen = st.text_input("Axemen", key="red_axemen", placeholder="5 10 15")
+with col1:
+    st.markdown("<h2 style='color: #1f77b4; text-align: center; margin-bottom: 4px;'>Blue Team</h2>", unsafe_allow_html=True)
+    st.markdown("<span style='color: #1f77b4; font-weight: bold;'>🏹 - Archers</span>", unsafe_allow_html=True)
+    blue_archers = st.text_input("", key="blue_archers", label_visibility="collapsed", placeholder="24 12")
+
+    st.markdown("<span style='color: #1f77b4; font-weight: bold; margin-top:4px;'>🗡️ - Swordsmen</span>", unsafe_allow_html=True)
+    blue_swordsmen = st.text_input("", key="blue_swordsmen", label_visibility="collapsed", placeholder="6")
+
+    st.markdown("<span style='color: #1f77b4; font-weight: bold; margin-top:4px;'>🪓 - Axemen</span>", unsafe_allow_html=True)
+    blue_axemen = st.text_input("", key="blue_axemen", label_visibility="collapsed", placeholder="")
+
+with col2:
+    st.markdown("<h2 style='color: #d62728; text-align: center; margin-bottom: 4px;'>Red Team</h2>", unsafe_allow_html=True)
+    st.markdown("<span style='color: #d62728; font-weight: bold;'>🏹 - Archers</span>", unsafe_allow_html=True)
+    red_archers = st.text_input("", key="red_archers", label_visibility="collapsed", placeholder="12")
+
+    st.markdown("<span style='color: #d62728; font-weight: bold; margin-top:4px;'>🗡️ - Swordsmen</span>", unsafe_allow_html=True)
+    red_swordsmen = st.text_input("", key="red_swordsmen", label_visibility="collapsed", placeholder="26 3")
+
+    st.markdown("<span style='color: #d62728; font-weight: bold; margin-top:4px;'>🪓 - Axemen</span>", unsafe_allow_html=True)
+    red_axemen = st.text_input("", key="red_axemen", label_visibility="collapsed", placeholder="26")
 
 st.markdown("<hr style='margin: 6px 0'>", unsafe_allow_html=True)
 
-# Boss centrato
+# Boss centrato come Blue/Red Team
 st.markdown("<h2 style='text-align: center; color: #000000; margin-bottom: 4px;'>Boss</h2>", unsafe_allow_html=True)
 boss = st.text_input("", key="boss", label_visibility="collapsed", placeholder="12 159")
 
 st.markdown("<hr style='margin: 6px 0'>", unsafe_allow_html=True)
 
-# Pulsante Optimize
 btn = st.button("🤖 Optimize", help="Calculate the best strategy", use_container_width=True)
 
 if btn:
@@ -85,14 +110,14 @@ if btn:
         'boss': Boss_list
     }
 
-    if sum(len(value) for value in Situation_Dict.values()) > 1:
-        battle_order, result = battle_engine.BestResult(Situation_Dict)
-        st.success(f"⚔️ Optimized result: {result.num} {result.troop.capitalize()}")
+if sum(len(value) for value in Situation_Dict.values()) > 1:
+    battle_order, result = battle_engine.BestResult(Situation_Dict)
+    st.success(f"⚔️ Optimized result: {result.num} {result.troop.capitalize()}")
 
-        st.markdown("### Optimal battle sequence:")
-        armies_str = " → ".join(f"{army.num}({army.troop.capitalize()})" for army in battle_order.armies)
-        st.write(armies_str)
-    else:
-        st.warning("Please enter valid troops!")
+    st.markdown("### Optimal battle sequence:")
+    armies_str = " → ".join(f"{army.num}({army.troop.capitalize()})" for army in battle_order.armies)
+    st.write(armies_str)
+else:
+    st.warning("Please enter valid troops!")
 
 st.markdown("<hr><p style='text-align:center; font-size:12px; color:gray;'>Powered by DropDuchy Battle Engine</p>", unsafe_allow_html=True)
