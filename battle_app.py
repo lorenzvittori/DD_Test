@@ -53,7 +53,7 @@ col1, col2 = st.columns(2)
 with col1:
     st.markdown("<h2 style='color: #1f77b4; text-align: center; margin-bottom: 4px;'>Blue Team</h2>", unsafe_allow_html=True)
     st.markdown("<span style='color: #1f77b4; font-weight: bold;'>🏹 - Archers</span>", unsafe_allow_html=True)
-    blue_archers = st.text_input("", key="blue_archers", label_visibility="collapsed", placeholder="24 12")
+    blue_archers = st.text_input("", key="blue_archers", label_visibility="collapsed", placeholder="4 12")
 
     st.markdown("<span style='color: #1f77b4; font-weight: bold; margin-top:4px;'>🗡️ - Swordsmen</span>", unsafe_allow_html=True)
     blue_swordsmen = st.text_input("", key="blue_swordsmen", label_visibility="collapsed", placeholder="6")
@@ -64,19 +64,19 @@ with col1:
 with col2:
     st.markdown("<h2 style='color: #d62728; text-align: center; margin-bottom: 4px;'>Red Team</h2>", unsafe_allow_html=True)
     st.markdown("<span style='color: #d62728; font-weight: bold;'>🏹 - Archers</span>", unsafe_allow_html=True)
-    red_archers = st.text_input("", key="red_archers", label_visibility="collapsed", placeholder="12")
+    red_archers = st.text_input("", key="red_archers", label_visibility="collapsed", placeholder="18 18 5")
 
     st.markdown("<span style='color: #d62728; font-weight: bold; margin-top:4px;'>🗡️ - Swordsmen</span>", unsafe_allow_html=True)
-    red_swordsmen = st.text_input("", key="red_swordsmen", label_visibility="collapsed", placeholder="26 3")
+    red_swordsmen = st.text_input("", key="red_swordsmen", label_visibility="collapsed", placeholder="26 7")
 
     st.markdown("<span style='color: #d62728; font-weight: bold; margin-top:4px;'>🪓 - Axemen</span>", unsafe_allow_html=True)
-    red_axemen = st.text_input("", key="red_axemen", label_visibility="collapsed", placeholder="26")
+    red_axemen = st.text_input("", key="red_axemen", label_visibility="collapsed", placeholder="9")
 
 st.markdown("<hr style='margin: 6px 0'>", unsafe_allow_html=True)
 
 # Boss centrato come Blue/Red Team
 st.markdown("<h2 style='text-align: center; color: #000000; margin-bottom: 4px;'>Boss</h2>", unsafe_allow_html=True)
-boss = st.text_input("", key="boss", label_visibility="collapsed", placeholder="12 159")
+boss = st.text_input("", key="boss", label_visibility="collapsed", placeholder="20 160")
 
 st.markdown("<hr style='margin: 6px 0'>", unsafe_allow_html=True)
 
@@ -110,14 +110,14 @@ if btn:
         'boss': Boss_list
     }
 
-if sum(len(value) for value in Situation_Dict.values()) > 1:
-    battle_order, result = battle_engine.BestResult(Situation_Dict)
-    st.success(f"⚔️ Optimized result: {result.num} {result.troop.capitalize()}")
+    if sum(len(value) for value in Situation_Dict.values()) > 1:
+        battle_order, result = battle_engine.BestResult(Situation_Dict)
+        st.success(f"⚔️ Optimized result: {result.num} {result.troop.capitalize()}")
 
-    st.markdown("### Optimal battle sequence:")
-    armies_str = " → ".join(f"{army.num}({army.troop.capitalize()})" for army in battle_order.armies)
-    st.write(armies_str)
-else:
-    st.warning("Please enter valid troops!")
+        st.markdown("### Optimal battle sequence:")
+        armies_str = " → ".join(f"{army.num}({army.troop.capitalize()})" for army in battle_order.armies)
+        st.write(armies_str)
+    else:
+        st.warning("Please enter valid troops!")
 
 st.markdown("<hr><p style='text-align:center; font-size:12px; color:gray;'>Powered by DropDuchy Battle Engine</p>", unsafe_allow_html=True)
