@@ -123,7 +123,7 @@ if btn:
         st.success(f"⚔️ Optimized result: {result.num} {result.troop.capitalize()}")
 
         st.markdown("### Optimal battle sequence:")
-        armies_str = " ➤ ".join(f"{int(army.num)}({Emoji_Dict[army.troop]})" for army in battle_order.armies)
+        armies_str = "  ↷ ".join(f"{int(army.num)}({Emoji_Dict[army.troop]})" for army in battle_order.armies)
         st.write(armies_str)
         #st.markdown("<span style='color: #1f77b4; font-weight: bold; margin-top:4px;'>🗡️ - Swordsmen</span>", unsafe_allow_html=True)
         #st.markdown(armies_str, unsafe_allow_html=True)
