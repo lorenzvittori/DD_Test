@@ -116,7 +116,8 @@ if btn:
     Emoji_Dict = {
         'archi': "🏹", 
         'spade':"🗡️",
-        'asce': "🪓"
+        'asce': "🪓",
+        'boss': "Boss"
     }
 
     if sum(len(value) for value in Situation_Dict.values()) > 1:
