@@ -77,7 +77,7 @@ with col2:
 st.markdown("<hr style='margin: 6px 0'>", unsafe_allow_html=True)
 
 # Boss centrato come Blue/Red Team
-st.markdown("<h2 style='text-align: center; color: #fcc603; margin-bottom: 4px;'>Boss</h2>", unsafe_allow_html=True)
+st.markdown("<h2 style='text-align: center; color: #fc9803; margin-bottom: 4px;'>Boss</h2>", unsafe_allow_html=True)
 boss = st.text_input("", key="boss", label_visibility="collapsed", placeholder="20 160")
 
 st.markdown("<hr style='margin: 6px 0'>", unsafe_allow_html=True)
