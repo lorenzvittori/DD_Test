@@ -129,8 +129,7 @@ if btn:
             f"<span style='color:{'#1f77b4' if army.num > 0 else '#d62728'};'>{abs(int(army.num))}</span> {Emoji_Dict[army.troop]}"
             for army in battle_order.armies
         )
-        armies_str = armies_str + " = " + 
-            f"<span style='color:{'#1f77b4' if result.num > 0 else '#d62728'};'>{abs(int(result.num))}</span> {Emoji_Dict[result.troop]}"
+        armies_str = armies_str + " = " + f"<span style='color:{'#1f77b4' if result.num > 0 else '#d62728'};'>{abs(int(result.num))}</span> {Emoji_Dict[result.troop]}"
         st.markdown(armies_str, unsafe_allow_html=True)
     else:
         st.warning("Please enter valid troops!")
