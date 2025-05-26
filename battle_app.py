@@ -57,10 +57,10 @@ with col1:
     st.markdown("<span style='color: #1f77b4; font-weight: bold; margin-top:4px;'>🪓 - Axemen</span>", unsafe_allow_html=True)
     blue_axemen = st.text_input("", key="blue_axemen", label_visibility="collapsed", placeholder="")
 
-    st.markdown("<div style='height: 50px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 70px;'></div>", unsafe_allow_html=True)
     
     # Pulsante Reset sotto il team Blue
-    if st.button("🔄 Reset", key="reset_button"):
+    if st.button("🔄 Reset", key="reset_button", use_container_width=True):
         reset_fields()
 
 with col2:
