@@ -1,3 +1,5 @@
+URL = "https://lorenzvittori-dropduchy-battlebot-battle-app-zc9ips.streamlit.app/"
+
 import streamlit as st
 import numpy as np
 import battle_engine
@@ -115,9 +117,8 @@ if btn:
         st.success(f"⚔️ Optimized result: {result.num} {result.troop.capitalize()}")
 
         st.markdown("### Optimal battle sequence:")
-        armies_str = " → ".join(f"{army.num}({army.troop.capitalize()})" for army in battle_order.armies)
+        armies_str = " ⟼ ".join(f"{army.num}({army.troop.capitalize()})" for army in battle_order.armies)
         st.write(armies_str)
     else:
         st.warning("Please enter valid troops!")
 
-st.markdown("<hr><p style='text-align:center; font-size:12px; color:gray;'>Powered by DropDuchy Battle Engine</p>", unsafe_allow_html=True)
