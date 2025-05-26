@@ -43,13 +43,10 @@ st.markdown(
 st.markdown("<hr style='margin: 6px 0'>", unsafe_allow_html=True)
 
 # Creazione delle colonne
-cols = st.columns([1, 4])  # Colonna 1 più stretta per il team blu e il pulsante Reset, Colonna 2 più larga per il team rosso
+col1, col2 = st.columns([1, 1])  # Colonne di larghezza uguale per Blue e Red Team
 
-with cols[0]:
-    # Pulsante reset spostato sopra il box Boss
-    if st.button("🔄 Reset"):
-        reset_fields()
-
+with col1:
+    # Sezione Blue Team
     st.markdown("<h2 style='color: #1f77b4; text-align: center; margin-bottom: 4px;'>Blue Team</h2>", unsafe_allow_html=True)
     st.markdown("<span style='color: #1f77b4; font-weight: bold;'>🏹 - Archers</span>", unsafe_allow_html=True)
     blue_archers = st.text_input("", key="blue_archers", label_visibility="collapsed", placeholder="4 12")
@@ -60,11 +57,12 @@ with cols[0]:
     st.markdown("<span style='color: #1f77b4; font-weight: bold; margin-top:4px;'>🪓 - Axemen</span>", unsafe_allow_html=True)
     blue_axemen = st.text_input("", key="blue_axemen", label_visibility="collapsed", placeholder="")
 
-    # Box Boss spostato sotto la sezione del team blu
-    st.markdown("<h3 style='text-align: center; color: #fc9803; margin-bottom: 4px;'>Boss</h3>", unsafe_allow_html=True)
-    boss = st.text_input("", key="boss", label_visibility="collapsed", placeholder="20 160")
+    # Pulsante Reset sotto il team Blue
+    if st.button("🔄 Reset", key="reset_button"):
+        reset_fields()
 
-with cols[1]:
+with col2:
+    # Sezione Red Team
     st.markdown("<h2 style='color: #d62728; text-align: center; margin-bottom: 4px;'>Red Team</h2>", unsafe_allow_html=True)
     st.markdown("<span style='color: #d62728; font-weight: bold;'>🏹 - Archers</span>", unsafe_allow_html=True)
     red_archers = st.text_input("", key="red_archers", label_visibility="collapsed", placeholder="18 18 5")
@@ -75,9 +73,14 @@ with cols[1]:
     st.markdown("<span style='color: #d62728; font-weight: bold; margin-top:4px;'>🪓 - Axemen</span>", unsafe_allow_html=True)
     red_axemen = st.text_input("", key="red_axemen", label_visibility="collapsed", placeholder="9")
 
+    # Sezione Boss
+    st.markdown("<h3 style='text-align: center; color: #fc9803; margin-bottom: 4px;'>Boss</h3>", unsafe_allow_html=True)
+    boss = st.text_input("", key="boss", label_visibility="collapsed", placeholder="20 160")
+
+# Ottimizzazione Button centrato sotto i team
 st.markdown("<hr style='margin: 6px 0'>", unsafe_allow_html=True)
 
-# Pulsante di ottimizzazione
+# Pulsante di Ottimizzazione centrato
 btn = st.button("🤖 Optimize", help="Calculate the best strategy", use_container_width=True)
 
 if btn:
