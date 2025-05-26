@@ -57,7 +57,7 @@ with col1:
     st.markdown("<span style='color: #1f77b4; font-weight: bold; margin-top:4px;'>🪓 - Axemen</span>", unsafe_allow_html=True)
     blue_axemen = st.text_input("", key="blue_axemen", label_visibility="collapsed", placeholder="")
 
-    st.markdown("<hr style='margin: 6px 0'>", unsafe_allow_html=True)
+    st.markdown("<span='margin: 6px 0'>", unsafe_allow_html=True)
     
     # Pulsante Reset sotto il team Blue
     if st.button("🔄 Reset", key="reset_button"):
