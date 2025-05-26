@@ -117,8 +117,7 @@ if btn:
         st.success(f"⚔️ Optimized result: {result.num} {result.troop.capitalize()}")
 
         st.markdown("### Optimal battle sequence:")
-        armies_str = " ⟼ ".join(f"{army.num}({army.troop.capitalize()})" for army in battle_order.armies)
+        armies_str = " ➤ ".join(f"{army.num}({army.troop.capitalize()})" for army in battle_order.armies)
         st.write(armies_str)
     else:
         st.warning("Please enter valid troops!")
-
