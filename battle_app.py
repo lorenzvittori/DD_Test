@@ -63,9 +63,6 @@ with col1:
     st.markdown("<span style='color: #1f77b4; font-weight: bold; margin-top:4px;'>🪓 - Axemen</span>", unsafe_allow_html=True)
     blue_axemen = st.text_input("", key="blue_axemen", label_visibility="collapsed", placeholder="")
 
-    if st.button("🔄 Reset"):
-        reset_fields()
-
 with col2:
     st.markdown("<h2 style='color: #d62728; text-align: center; margin-bottom: 4px;'>Red Team</h2>", unsafe_allow_html=True)
     st.markdown("<span style='color: #d62728; font-weight: bold;'>🏹 - Archers</span>", unsafe_allow_html=True)
