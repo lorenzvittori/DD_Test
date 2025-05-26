@@ -22,11 +22,6 @@ def reset_fields():
     st.session_state["red_axemen"] = ""
     st.session_state["boss"] = ""
 
-# Pulsante reset in cima
-cols = st.columns([1, 4])
-with cols[0]:
-    if st.button("🔄 Reset"):
-        reset_fields()
 
 # Titolo
 st.markdown("""
@@ -52,7 +47,11 @@ st.markdown("<hr style='margin: 6px 0'>", unsafe_allow_html=True)
 
 col1, col2 = st.columns(2)
 
-with col1:
+cols = st.columns([1, 4])
+with cols[0]:
+    # Pulsante reset spostato sopra il box Boss
+    if st.button("🔄 Reset"):
+        reset_fields()
     st.markdown("<h2 style='color: #1f77b4; text-align: center; margin-bottom: 4px;'>Blue Team</h2>", unsafe_allow_html=True)
     st.markdown("<span style='color: #1f77b4; font-weight: bold;'>🏹 - Archers</span>", unsafe_allow_html=True)
     blue_archers = st.text_input("", key="blue_archers", label_visibility="collapsed", placeholder="4 12")
