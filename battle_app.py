@@ -124,8 +124,8 @@ if btn:
 
         st.markdown("### Optimal battle sequence:")
         armies_str = "  ➙  ".join(
-        f"<span style='color:green; font-weight:bold;'>{int(army.num)}</span> {Emoji_Dict[army.troop]}"
-        for army in battle_order.armies
+            f"<span style='color:{'blue' if army.num > 0 else 'red'}; font-weight:bold;'>{int(army.num)}</span> {Emoji_Dict[army.troop]}"
+            for army in battle_order.armies
         )
         st.markdown(armies_str, unsafe_allow_html=True)
         #st.markdown("<span style='color: #1f77b4;'>{int(army.num)}n</span>", unsafe_allow_html=True)
