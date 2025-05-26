@@ -74,7 +74,7 @@ with col2:
     red_axemen = st.text_input("", key="red_axemen", label_visibility="collapsed", placeholder="9")
 
     # Sezione Boss
-    st.markdown("<h3 style='text-align: center; color: #fc9803; margin-bottom: 4px;'>Boss</h3>", unsafe_allow_html=True)
+    st.markdown("<h4 style='color: #fc9803; margin-bottom: 4px;'>🚩 Boss 🚩</h4>", unsafe_allow_html=True)
     boss = st.text_input("", key="boss", label_visibility="collapsed", placeholder="20 160")
 
 # Ottimizzazione Button centrato sotto i team
