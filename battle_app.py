@@ -117,7 +117,7 @@ if btn:
         'archi': "🏹", 
         'spade':"🗡️",
         'asce': "🪓",
-        'boss': "Boss"
+        'boss': "<span style='color:#d62728'>Boss</span>"
     }
 
     if sum(len(value) for value in Situation_Dict.values()) > 1:
