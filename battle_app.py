@@ -1,5 +1,3 @@
-URL = "https://lorenzvittori-dropduchy-battlebot-battle-app-zc9ips.streamlit.app/"
-
 import streamlit as st
 import numpy as np
 import battle_engine
@@ -21,7 +19,6 @@ def reset_fields():
     st.session_state["red_swordsmen"] = ""
     st.session_state["red_axemen"] = ""
     st.session_state["boss"] = ""
-
 
 # Titolo
 st.markdown("""
@@ -45,11 +42,13 @@ st.markdown(
 )
 st.markdown("<hr style='margin: 6px 0'>", unsafe_allow_html=True)
 
-col1, col2 = st.columns(2)
+# Creazione delle colonne
+cols = st.columns([1, 4])  # Colonna 1 più stretta per il team blu e il pulsante Reset, Colonna 2 più larga per il team rosso
 
-cols = st.columns([1, 4])
 with cols[0]:
     # Pulsante reset spostato sopra il box Boss
+    if st.button("🔄 Reset"):
+        reset_fields()
 
     st.markdown("<h2 style='color: #1f77b4; text-align: center; margin-bottom: 4px;'>Blue Team</h2>", unsafe_allow_html=True)
     st.markdown("<span style='color: #1f77b4; font-weight: bold;'>🏹 - Archers</span>", unsafe_allow_html=True)
@@ -60,10 +59,12 @@ with cols[0]:
 
     st.markdown("<span style='color: #1f77b4; font-weight: bold; margin-top:4px;'>🪓 - Axemen</span>", unsafe_allow_html=True)
     blue_axemen = st.text_input("", key="blue_axemen", label_visibility="collapsed", placeholder="")
-    
-    if st.button("🔄 Reset"):
-        reset_fields()
-with col2:
+
+    # Box Boss spostato sotto la sezione del team blu
+    st.markdown("<h3 style='text-align: center; color: #fc9803; margin-bottom: 4px;'>Boss</h3>", unsafe_allow_html=True)
+    boss = st.text_input("", key="boss", label_visibility="collapsed", placeholder="20 160")
+
+with cols[1]:
     st.markdown("<h2 style='color: #d62728; text-align: center; margin-bottom: 4px;'>Red Team</h2>", unsafe_allow_html=True)
     st.markdown("<span style='color: #d62728; font-weight: bold;'>🏹 - Archers</span>", unsafe_allow_html=True)
     red_archers = st.text_input("", key="red_archers", label_visibility="collapsed", placeholder="18 18 5")
@@ -74,16 +75,9 @@ with col2:
     st.markdown("<span style='color: #d62728; font-weight: bold; margin-top:4px;'>🪓 - Axemen</span>", unsafe_allow_html=True)
     red_axemen = st.text_input("", key="red_axemen", label_visibility="collapsed", placeholder="9")
 
-    st.markdown("<h3 style='text-align: center; color: #fc9803; margin-bottom: 4px;'>Boss</h3>", unsafe_allow_html=True)
-    boss = st.text_input("", key="boss", label_visibility="collapsed", placeholder="20 160")
-
 st.markdown("<hr style='margin: 6px 0'>", unsafe_allow_html=True)
 
-# Boss centrato come Blue/Red Team
-
-
-st.markdown("<hr style='margin: 6px 0'>", unsafe_allow_html=True)
-
+# Pulsante di ottimizzazione
 btn = st.button("🤖 Optimize", help="Calculate the best strategy", use_container_width=True)
 
 if btn:
@@ -130,7 +124,5 @@ if btn:
             for army in battle_order.armies
         )
         st.markdown(armies_str, unsafe_allow_html=True)
-        #st.markdown("<span style='color: #1f77b4;'>{int(army.num)}n</span>", unsafe_allow_html=True)
-        #st.markdown(armies_str, unsafe_allow_html=True)
     else:
         st.warning("Please enter valid troops!")
