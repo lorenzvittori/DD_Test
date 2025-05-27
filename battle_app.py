@@ -123,9 +123,9 @@ if btn:
     if sum(len(value) for value in Situation_Dict.values()) > 1:
         battle_order, result = battle_engine.BestResult(Situation_Dict)
         
-        result = f"Win: {int(result.num)}" if result.num > 0 else result = f"Lose: {int(result.num)}"
+        win_lose = f"Win: {int(result.num)}" if result.num > 0 else result = f"Lose: {int(result.num)}"
         
-        st.markdown(result + "### Optimal battle sequence:")
+        st.markdown(win_lose + "### Optimal battle sequence:")
         armies_str = "   ➙   ".join(
             f"<span style='color:{'#1f77b4' if army.num > 0 else '#d62728'};font-weight: bold;'>{abs(int(army.num))}</span> {Emoji_Dict[army.troop]}"
             for army in battle_order.armies
