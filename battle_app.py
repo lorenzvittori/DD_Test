@@ -126,13 +126,16 @@ if btn:
         # Risultato principale (Win / Lose con valore)
         if result.num > 0:
             result_text = f"<h2 style='text-align: center; color: #1f77b4;'>🏆 Win ({int(result.num)})</h2>"
-        else:
+        elif result.num < 0:
             result_text = f"<h2 style='text-align: center; color: #d62728;'>💀 Lose ({int(result.num)})</h2>"
-    
+        else:
+            result_text = f"<h2 style='text-align: center; color: #aaaa00;'>⚖️ Draw</h2>"
+        
         st.markdown(result_text, unsafe_allow_html=True)
+
     
         # Testo piccolo "Optimal battle sequence"
-        st.markdown("<p style='text-align: center; font-size: 14px; color: gray;'>Optimal battle sequence</p>", unsafe_allow_html=True)
+        st.markdown("<p style='text-align: center; font-weight: bold; font-size: 16px; color: gray;'>Optimal battle sequence</p>", unsafe_allow_html=True)
     
         # Visualizzazione della sequenza
         armies_str = " ➙ ".join(
