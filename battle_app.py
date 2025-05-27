@@ -10,16 +10,6 @@ def parse_input(text):
     except ValueError:
         return np.array([])
 
-# Funzione per azzerare tutti i campi
-def reset_fields():
-    st.session_state["blue_archers"] = ""
-    st.session_state["blue_swordsmen"] = ""
-    st.session_state["blue_axemen"] = ""
-    st.session_state["red_archers"] = ""
-    st.session_state["red_swordsmen"] = ""
-    st.session_state["red_axemen"] = ""
-    st.session_state["boss"] = ""
-
 # Titolo
 st.markdown("""
 <link href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap" rel="stylesheet">
@@ -42,37 +32,38 @@ st.markdown(
 )
 st.markdown("<hr style='margin: 6px 0'>", unsafe_allow_html=True)
 
-# Colonne per Blue e Red Team
+# Creazione delle colonne
 col1, col2 = st.columns([1, 1])
 
 with col1:
     st.markdown("<h2 style='color: #1f77b4; text-align: center; margin-bottom: 4px;'>Blue Team</h2>", unsafe_allow_html=True)
-    st.markdown("<span style='color: #1f77b4; font-weight: bold;'>🏹 - Archers</span>", unsafe_allow_html=True)
+    st.markdown("<span style='color: #1f77b4; font-weight: bold;'>🌹 - Archers</span>", unsafe_allow_html=True)
     blue_archers = st.text_input("", key="blue_archers", label_visibility="collapsed", placeholder="4 12")
 
-    st.markdown("<span style='color: #1f77b4; font-weight: bold; margin-top:4px;'>🗡️ - Swordsmen</span>", unsafe_allow_html=True)
+    st.markdown("<span style='color: #1f77b4; font-weight: bold;'>🗡️ - Swordsmen</span>", unsafe_allow_html=True)
     blue_swordsmen = st.text_input("", key="blue_swordsmen", label_visibility="collapsed", placeholder="6")
 
-    st.markdown("<span style='color: #1f77b4; font-weight: bold; margin-top:4px;'>🪓 - Axemen</span>", unsafe_allow_html=True)
+    st.markdown("<span style='color: #1f77b4; font-weight: bold;'>🪓 - Axemen</span>", unsafe_allow_html=True)
     blue_axemen = st.text_input("", key="blue_axemen", label_visibility="collapsed", placeholder="")
 
 with col2:
     st.markdown("<h2 style='color: #d62728; text-align: center; margin-bottom: 4px;'>Red Team</h2>", unsafe_allow_html=True)
-    st.markdown("<span style='color: #d62728; font-weight: bold;'>🏹 - Archers</span>", unsafe_allow_html=True)
+    st.markdown("<span style='color: #d62728; font-weight: bold;'>🌹 - Archers</span>", unsafe_allow_html=True)
     red_archers = st.text_input("", key="red_archers", label_visibility="collapsed", placeholder="18 18 5")
 
-    st.markdown("<span style='color: #d62728; font-weight: bold; margin-top:4px;'>🗡️ - Swordsmen</span>", unsafe_allow_html=True)
+    st.markdown("<span style='color: #d62728; font-weight: bold;'>🗡️ - Swordsmen</span>", unsafe_allow_html=True)
     red_swordsmen = st.text_input("", key="red_swordsmen", label_visibility="collapsed", placeholder="26 7")
 
-    st.markdown("<span style='color: #d62728; font-weight: bold; margin-top:4px;'>🪓 - Axemen</span>", unsafe_allow_html=True)
+    st.markdown("<span style='color: #d62728; font-weight: bold;'>🪓 - Axemen</span>", unsafe_allow_html=True)
     red_axemen = st.text_input("", key="red_axemen", label_visibility="collapsed", placeholder="9")
 
     st.markdown("<h4 style='color: #fc9803; margin-bottom: 4px;'>🚩 Boss 🚩</h4>", unsafe_allow_html=True)
     boss = st.text_input("", key="boss", label_visibility="collapsed", placeholder="20 160")
 
+# Separatore prima dei pulsanti
 st.markdown("<hr style='margin: 6px 0'>", unsafe_allow_html=True)
 
-# Pulsante Optimize
+# Pulsante di Ottimizzazione centrato
 btn = st.button("🤖 Optimize", help="Calculate the best strategy", use_container_width=True)
 
 if btn:
@@ -104,8 +95,8 @@ if btn:
     }
 
     Emoji_Dict = {
-        'archi': "🏹", 
-        'spade': "🗡️",
+        'archi': "🌹", 
+        'spade':"🗡️",
         'asce': "🪓",
         'boss': "<span style='color:#d62728'>Boss</span>"
     }
@@ -113,7 +104,6 @@ if btn:
     if sum(len(value) for value in Situation_Dict.values()) > 1:
         battle_order, result = battle_engine.BestResult(Situation_Dict)
 
-        # Risultato: Win, Lose, Draw
         if result.num > 0:
             result_text = f"<h2 style='text-align: center; color: #1f77b4;'>🏆 Win ({int(result.num)})</h2>"
         elif result.num < 0:
@@ -123,20 +113,23 @@ if btn:
 
         st.markdown(result_text, unsafe_allow_html=True)
 
-        # Testo piccolo "Optimal battle sequence"
         st.markdown("<p style='text-align: center; font-weight: bold; font-size: 18px; color: gray;'>Optimal battle sequence:</p>", unsafe_allow_html=True)
 
-        # Visualizzazione della sequenza
         armies_str = " ➙ ".join(
             f"<span style='color:{'#1f77b4' if army.num > 0 else '#d62728'}; font-weight: bold;'>{abs(int(army.num))}</span> {Emoji_Dict[army.troop]}"
             for army in battle_order.armies
         )
         st.markdown(f"<p style='text-align: center; font-size: 16px;'>{armies_str}</p>", unsafe_allow_html=True)
-
     else:
         st.warning("Please enter valid troops!")
 
-# Pulsante Reset in fondo
-st.markdown("<hr style='margin: 10px 0;'>", unsafe_allow_html=True)
+# Pulsante Reset posizionato infondo
 if st.button("🔄 Reset", key="reset_button", use_container_width=True):
-    reset_fields()
+    st.session_state.blue_archers = ""
+    st.session_state.blue_swordsmen = ""
+    st.session_state.blue_axemen = ""
+    st.session_state.red_archers = ""
+    st.session_state.red_swordsmen = ""
+    st.session_state.red_axemen = ""
+    st.session_state.boss = ""
+    st.experimental_rerun()
