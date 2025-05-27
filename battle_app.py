@@ -42,11 +42,10 @@ st.markdown(
 )
 st.markdown("<hr style='margin: 6px 0'>", unsafe_allow_html=True)
 
-# Creazione delle colonne
-col1, col2 = st.columns([1, 1])  # Colonne di larghezza uguale per Blue e Red Team
+# Colonne per Blue e Red Team
+col1, col2 = st.columns([1, 1])
 
 with col1:
-    # Sezione Blue Team
     st.markdown("<h2 style='color: #1f77b4; text-align: center; margin-bottom: 4px;'>Blue Team</h2>", unsafe_allow_html=True)
     st.markdown("<span style='color: #1f77b4; font-weight: bold;'>🏹 - Archers</span>", unsafe_allow_html=True)
     blue_archers = st.text_input("", key="blue_archers", label_visibility="collapsed", placeholder="4 12")
@@ -57,14 +56,7 @@ with col1:
     st.markdown("<span style='color: #1f77b4; font-weight: bold; margin-top:4px;'>🪓 - Axemen</span>", unsafe_allow_html=True)
     blue_axemen = st.text_input("", key="blue_axemen", label_visibility="collapsed", placeholder="")
 
-    st.markdown("<div style='height: 58px;'></div>", unsafe_allow_html=True)
-    
-    # Pulsante Reset sotto il team Blue
-    if st.button("🔄 Reset", key="reset_button", use_container_width=True):
-        reset_fields()
-
 with col2:
-    # Sezione Red Team
     st.markdown("<h2 style='color: #d62728; text-align: center; margin-bottom: 4px;'>Red Team</h2>", unsafe_allow_html=True)
     st.markdown("<span style='color: #d62728; font-weight: bold;'>🏹 - Archers</span>", unsafe_allow_html=True)
     red_archers = st.text_input("", key="red_archers", label_visibility="collapsed", placeholder="18 18 5")
@@ -75,14 +67,12 @@ with col2:
     st.markdown("<span style='color: #d62728; font-weight: bold; margin-top:4px;'>🪓 - Axemen</span>", unsafe_allow_html=True)
     red_axemen = st.text_input("", key="red_axemen", label_visibility="collapsed", placeholder="9")
 
-    # Sezione Boss
     st.markdown("<h4 style='color: #fc9803; margin-bottom: 4px;'>🚩 Boss 🚩</h4>", unsafe_allow_html=True)
     boss = st.text_input("", key="boss", label_visibility="collapsed", placeholder="20 160")
 
-# Ottimizzazione Button centrato sotto i team
 st.markdown("<hr style='margin: 6px 0'>", unsafe_allow_html=True)
 
-# Pulsante di Ottimizzazione centrato
+# Pulsante Optimize
 btn = st.button("🤖 Optimize", help="Calculate the best strategy", use_container_width=True)
 
 if btn:
@@ -115,7 +105,7 @@ if btn:
 
     Emoji_Dict = {
         'archi': "🏹", 
-        'spade':"🗡️",
+        'spade': "🗡️",
         'asce': "🪓",
         'boss': "<span style='color:#d62728'>Boss</span>"
     }
@@ -123,20 +113,19 @@ if btn:
     if sum(len(value) for value in Situation_Dict.values()) > 1:
         battle_order, result = battle_engine.BestResult(Situation_Dict)
 
-        # Risultato principale (Win / Lose con valore)
+        # Risultato: Win, Lose, Draw
         if result.num > 0:
             result_text = f"<h2 style='text-align: center; color: #1f77b4;'>🏆 Win ({int(result.num)})</h2>"
         elif result.num < 0:
             result_text = f"<h2 style='text-align: center; color: #d62728;'>💀 Lose ({int(result.num)})</h2>"
         else:
             result_text = f"<h2 style='text-align: center; color: #aaaa00;'>⚖️ Draw</h2>"
-        
+
         st.markdown(result_text, unsafe_allow_html=True)
 
-    
         # Testo piccolo "Optimal battle sequence"
         st.markdown("<p style='text-align: center; font-weight: bold; font-size: 18px; color: gray;'>Optimal battle sequence:</p>", unsafe_allow_html=True)
-    
+
         # Visualizzazione della sequenza
         armies_str = " ➙ ".join(
             f"<span style='color:{'#1f77b4' if army.num > 0 else '#d62728'}; font-weight: bold;'>{abs(int(army.num))}</span> {Emoji_Dict[army.troop]}"
@@ -146,3 +135,8 @@ if btn:
 
     else:
         st.warning("Please enter valid troops!")
+
+# Pulsante Reset in fondo
+st.markdown("<hr style='margin: 10px 0;'>", unsafe_allow_html=True)
+if st.button("🔄 Reset", key="reset_button", use_container_width=True):
+    reset_fields()
