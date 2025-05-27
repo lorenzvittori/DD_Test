@@ -125,21 +125,16 @@ if btn:
 
         # Risultato principale (Win / Lose con valore)
     if result.num > 0:
-        result_text = f"<h2 style='text-align: center; color: #1f77b4;'>🏆 Win ({int(result.num)})</h2>"
+        win_lose = f"Win: {int(result.num)}"
     else:
-        result_text = f"<h2 style='text-align: center; color: #d62728;'>💀 Lose ({int(result.num)})</h2>"
+        win_lose = f"Lose: {int(result.num)}"
     
-    st.markdown(result_text, unsafe_allow_html=True)
-    
-    # Testo piccolo "Optimal battle sequence"
-    st.markdown("<p style='text-align: center; font-size: 14px; color: gray;'>Optimal battle sequence</p>", unsafe_allow_html=True)
-    
-    # Visualizzazione della sequenza
+    st.markdown(win_lose + "### Optimal battle sequence:")
     armies_str = " ➙ ".join(
-        f"<span style='color:{'#1f77b4' if army.num > 0 else '#d62728'}; font-weight: bold;'>{abs(int(army.num))}</span> {Emoji_Dict[army.troop]}"
+        f"<span style='color:{'#1f77b4' if army.num > 0 else '#d62728'};font-weight: bold;'>{abs(int(army.num))}</span> {Emoji_Dict[army.troop]}"
         for army in battle_order.armies
     )
-    st.markdown(f"<p style='text-align: center; font-size: 16px;'>{armies_str}</p>", unsafe_allow_html=True)
+    st.markdown(armies_str, unsafe_allow_html=True)
 
     else:
         st.warning("Please enter valid troops!")
