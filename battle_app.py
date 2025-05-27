@@ -14,13 +14,14 @@ def parse_input(text):
 for key in [
     "blue_archers", "blue_swordsmen", "blue_axemen",
     "red_archers", "red_swordsmen", "red_axemen",
-    "boss"
+    "boss", "optimized"  # Aggiunto il flag "optimized"
 ]:
     if key not in st.session_state:
-        st.session_state[key] = ""
+        st.session_state[key] = "" if key != "optimized" else False
 
 # Funzione per azzerare tutti i campi
 def reset_fields():
+    st.session_state["optimized"] = False  # Reset del flag "optimized"
     for key in [
         "blue_archers", "blue_swordsmen", "blue_axemen",
         "red_archers", "red_swordsmen", "red_axemen",
@@ -120,6 +121,8 @@ if btn:
     if sum(len(value) for value in Situation_Dict.values()) > 1:
         battle_order, result = battle_engine.BestResult(Situation_Dict)
 
+        st.session_state["optimized"] = True  # ✅ Flag impostato dopo l’ottimizzazione
+
         if result.num > 0:
             result_text = f"<h2 style='text-align: center; color: #1f77b4;'>🏆 Win ({int(result.num)})</h2>"
         elif result.num < 0:
@@ -139,6 +142,7 @@ if btn:
     else:
         st.warning("Please enter valid troops!")
 
-# Pulsante Reset in fondo
-st.markdown("<hr style='margin: 12px 0'>", unsafe_allow_html=True)
-st.button("🔄 Reset", key="reset_all", use_container_width=True, on_click=reset_fields)
+# Mostra il pulsante Reset solo dopo che è stata fatta un'ottimizzazione
+if st.session_state.get("optimized", False):
+    st.markdown("<hr style='margin: 12px 0'>", unsafe_allow_html=True)
+    st.button("🔄 Reset", key="reset_all", use_container_width=True, on_click=reset_fields)
