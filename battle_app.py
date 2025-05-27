@@ -122,7 +122,7 @@ if btn:
 
     if sum(len(value) for value in Situation_Dict.values()) > 1:
         battle_order, result = battle_engine.BestResult(Situation_Dict)
-        st.success(f"Risultato: {int(result.num)}")
+        st.fail(f"Risultato: {int(result.num)}")
         
         st.markdown("### Optimal battle sequence:")
         armies_str = "   ➙   ".join(
