@@ -141,5 +141,4 @@ if btn:
 
 # Pulsante Reset in fondo
 st.markdown("<hr style='margin: 12px 0'>", unsafe_allow_html=True)
-if st.button("🔄 Reset", key="reset_all", use_container_width=True):
-    reset_fields()
+st.button("🔄 Reset", key="reset_all", use_container_width=True, on_click=reset_fields)
