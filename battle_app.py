@@ -135,7 +135,7 @@ if btn:
 
     
         # Testo piccolo "Optimal battle sequence"
-        st.markdown("<p style='text-align: center; font-weight: bold; font-size: 16px; color: gray;'>Optimal battle sequence</p>", unsafe_allow_html=True)
+        st.markdown("<p style='font-weight: bold; font-size: 18px;'>Optimal battle sequence:</p>", unsafe_allow_html=True)
     
         # Visualizzazione della sequenza
         armies_str = " ➙ ".join(
