@@ -123,17 +123,23 @@ if btn:
     if sum(len(value) for value in Situation_Dict.values()) > 1:
         battle_order, result = battle_engine.BestResult(Situation_Dict)
 
+        # Risultato principale (Win / Lose con valore)
         if result.num > 0:
-            win_lose = f"Win: {int(result.num)}"  
+            result_text = f"<h2 style='text-align: center; color: #1f77b4;'>🏆 Win ({int(result.num)})</h2>"
         else:
-            win_lose = f"Lose: {int(result.num)}"
-        
-        st.markdown(win_lose + "### Optimal battle sequence:")
-        armies_str = "   ➙   ".join(
-            f"<span style='color:{'#1f77b4' if army.num > 0 else '#d62728'};font-weight: bold;'>{abs(int(army.num))}</span> {Emoji_Dict[army.troop]}"
+            result_text = f"<h2 style='text-align: center; color: #d62728;'>💀 Lose ({int(result.num)})</h2>"
+    
+        st.markdown(result_text, unsafe_allow_html=True)
+    
+        # Testo piccolo "Optimal battle sequence"
+        st.markdown("<p style='text-align: center; font-size: 14px; color: gray;'>Optimal battle sequence</p>", unsafe_allow_html=True)
+    
+        # Visualizzazione della sequenza
+        armies_str = " ➙ ".join(
+            f"<span style='color:{'#1f77b4' if army.num > 0 else '#d62728'}; font-weight: bold;'>{abs(int(army.num))}</span> {Emoji_Dict[army.troop]}"
             for army in battle_order.armies
         )
-        #armies_str = armies_str + " = " + f"<span style='color:{'#1f77b4' if result.num > 0 else '#d62728'};'>{abs(int(result.num))}</span> {Emoji_Dict[result.troop]}"
-        st.markdown(armies_str, unsafe_allow_html=True)
+        st.markdown(f"<p style='text-align: center; font-size: 16px;'>{armies_str}</p>", unsafe_allow_html=True)
+
     else:
         st.warning("Please enter valid troops!")
