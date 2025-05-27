@@ -10,6 +10,24 @@ def parse_input(text):
     except ValueError:
         return np.array([])
 
+# Inizializzazione dei campi nella sessione
+for key in [
+    "blue_archers", "blue_swordsmen", "blue_axemen",
+    "red_archers", "red_swordsmen", "red_axemen",
+    "boss"
+]:
+    if key not in st.session_state:
+        st.session_state[key] = ""
+
+# Funzione per azzerare tutti i campi
+def reset_fields():
+    for key in [
+        "blue_archers", "blue_swordsmen", "blue_axemen",
+        "red_archers", "red_swordsmen", "red_axemen",
+        "boss"
+    ]:
+        st.session_state[key] = ""
+
 # Titolo
 st.markdown("""
 <link href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap" rel="stylesheet">
@@ -24,7 +42,6 @@ st.markdown("""
 </h1>
 """, unsafe_allow_html=True)
 
-# Istruzioni
 st.markdown(
     "<p style='text-align: center; font-size: 14px; margin-top: 0; margin-bottom: 0px;'>"
     "Enter the armies below.<br>Multiple armies of the same type should be separated by spaces."
@@ -32,12 +49,12 @@ st.markdown(
 )
 st.markdown("<hr style='margin: 6px 0'>", unsafe_allow_html=True)
 
-# Creazione delle colonne
+# Colonne Blue/Red
 col1, col2 = st.columns([1, 1])
 
 with col1:
     st.markdown("<h2 style='color: #1f77b4; text-align: center; margin-bottom: 4px;'>Blue Team</h2>", unsafe_allow_html=True)
-    st.markdown("<span style='color: #1f77b4; font-weight: bold;'>🌹 - Archers</span>", unsafe_allow_html=True)
+    st.markdown("<span style='color: #1f77b4; font-weight: bold;'>🏹 - Archers</span>", unsafe_allow_html=True)
     blue_archers = st.text_input("", key="blue_archers", label_visibility="collapsed", placeholder="4 12")
 
     st.markdown("<span style='color: #1f77b4; font-weight: bold;'>🗡️ - Swordsmen</span>", unsafe_allow_html=True)
@@ -48,7 +65,7 @@ with col1:
 
 with col2:
     st.markdown("<h2 style='color: #d62728; text-align: center; margin-bottom: 4px;'>Red Team</h2>", unsafe_allow_html=True)
-    st.markdown("<span style='color: #d62728; font-weight: bold;'>🌹 - Archers</span>", unsafe_allow_html=True)
+    st.markdown("<span style='color: #d62728; font-weight: bold;'>🏹 - Archers</span>", unsafe_allow_html=True)
     red_archers = st.text_input("", key="red_archers", label_visibility="collapsed", placeholder="18 18 5")
 
     st.markdown("<span style='color: #d62728; font-weight: bold;'>🗡️ - Swordsmen</span>", unsafe_allow_html=True)
@@ -60,10 +77,9 @@ with col2:
     st.markdown("<h4 style='color: #fc9803; margin-bottom: 4px;'>🚩 Boss 🚩</h4>", unsafe_allow_html=True)
     boss = st.text_input("", key="boss", label_visibility="collapsed", placeholder="20 160")
 
-# Separatore prima dei pulsanti
 st.markdown("<hr style='margin: 6px 0'>", unsafe_allow_html=True)
 
-# Pulsante di Ottimizzazione centrato
+# Pulsante centrale per l'ottimizzazione
 btn = st.button("🤖 Optimize", help="Calculate the best strategy", use_container_width=True)
 
 if btn:
@@ -95,7 +111,7 @@ if btn:
     }
 
     Emoji_Dict = {
-        'archi': "🌹", 
+        'archi': "🏹", 
         'spade':"🗡️",
         'asce': "🪓",
         'boss': "<span style='color:#d62728'>Boss</span>"
@@ -110,7 +126,7 @@ if btn:
             result_text = f"<h2 style='text-align: center; color: #d62728;'>💀 Lose ({int(result.num)})</h2>"
         else:
             result_text = f"<h2 style='text-align: center; color: #aaaa00;'>⚖️ Draw</h2>"
-
+        
         st.markdown(result_text, unsafe_allow_html=True)
 
         st.markdown("<p style='text-align: center; font-weight: bold; font-size: 18px; color: gray;'>Optimal battle sequence:</p>", unsafe_allow_html=True)
@@ -123,13 +139,7 @@ if btn:
     else:
         st.warning("Please enter valid troops!")
 
-# Pulsante Reset posizionato infondo
-if st.button("🔄 Reset", key="reset_button", use_container_width=True):
-    st.session_state.blue_archers = ""
-    st.session_state.blue_swordsmen = ""
-    st.session_state.blue_axemen = ""
-    st.session_state.red_archers = ""
-    st.session_state.red_swordsmen = ""
-    st.session_state.red_axemen = ""
-    st.session_state.boss = ""
-    st.experimental_rerun()
+# Pulsante Reset in fondo
+st.markdown("<hr style='margin: 12px 0'>", unsafe_allow_html=True)
+if st.button("🔄 Reset", key="reset_all", use_container_width=True):
+    reset_fields()
