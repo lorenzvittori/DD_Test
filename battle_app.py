@@ -133,7 +133,7 @@ if btn:
 
 
     if sum(len(value) for value in Situation_Dict.values()) > 1:
-        with st.spinner('Sto calcolando la miglior strategia...'):
+        with st.spinner('Computing best strategy...'):
                 try:
                     battle_order, result = engine.BestResult(Situation_Dict)
                 except Exception as e:
