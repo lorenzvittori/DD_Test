@@ -109,29 +109,39 @@ def BestResult(Situation: dict):
 
     @lru_cache(maxsize=None)
     def dfs(current_army, remaining_armies):
-        # current_army: (num, troop)
-        # remaining_armies: tuple of (num, troop)
         if not remaining_armies:
-            return current_army
+            # Quando finisce, ritorna la armata e la sequenza (lista con solo current_army)
+            return (current_army[0], [current_army])
 
-        best = (float('-inf'), 'neutral')
+        best_num = float('-inf')
+        best_path = []
 
         for i, next_army in enumerate(remaining_armies):
             current_army_obj = Army(*current_army)
             next_army_obj = Army(*next_army)
             result_army = single_combat(current_army_obj, next_army_obj)
             result_tuple = (result_army.num, result_army.troop)
-            new_remaining = remaining_armies[:i] + remaining_armies[i+1:]
-            candidate = dfs(result_tuple, new_remaining)
-            if candidate[0] > best[0]:
-                best = candidate
-        return best
 
-    best_overall = (float('-inf'), 'neutral')
+            new_remaining = remaining_armies[:i] + remaining_armies[i+1:]
+            candidate_num, candidate_path = dfs(result_tuple, new_remaining)
+
+            if candidate_num > best_num:
+                best_num = candidate_num
+                best_path = [current_army] + candidate_path
+
+        return best_num, best_path
+
+    best_overall_num = float('-inf')
+    best_overall_path = []
+
     for i, army in enumerate(armies):
         remaining = armies[:i] + armies[i+1:]
-        candidate = dfs(army, remaining)
-        if candidate[0] > best_overall[0]:
-            best_overall = candidate
+        candidate_num, candidate_path = dfs(army, remaining)
+        if candidate_num > best_overall_num:
+            best_overall_num = candidate_num
+            best_overall_path = candidate_path
 
-    return Army(*best_overall)
+    # Converti la migliore sequenza di tuple in oggetti Army e crea uno Stage
+    best_armies = [Army(num, troop) for (num, troop) in best_overall_path]
+    return Stage(best_armies)
+
