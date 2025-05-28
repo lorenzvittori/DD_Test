@@ -134,7 +134,7 @@ if btn:
 
         st.markdown("<p style='text-align: center; font-weight: bold; font-size: 18px; color: gray;'>Optimal battle sequence:</p>", unsafe_allow_html=True)
 
-        armies_str = " ⁀➴ ".join(
+        armies_str = " *⁀ ".join(
             f"<span style='color:{'#1f77b4' if army.num > 0 else '#d62728'}; font-weight: bold;'>[{abs(int(army.num))}{Emoji_Dict[army.troop]}]</span>"
             for army in battle_order.armies
         )
