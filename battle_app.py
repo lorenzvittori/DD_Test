@@ -129,10 +129,16 @@ if btn:
         'asce': "🪓",
         'boss': "<span style='color:#d62728'> Boss</span>"
     }
+    
+
 
     if sum(len(value) for value in Situation_Dict.values()) > 1:
         with st.spinner('Sto calcolando la miglior strategia...'):
-            battle_order, result = cached_best_result(Situation_Dict)
+                try:
+                    battle_order, result = engine.BestResult(Situation_Dict)
+                except Exception as e:
+                    st.error(f"Errore durante il calcolo: {e}. Prova a ridurre il numero di truppe.")
+                    st.stop()  # ferma l'esecuzione qui
             
         st.session_state["optimized"] = True  # ✅ Flag impostato dopo l’ottimizzazione
 
