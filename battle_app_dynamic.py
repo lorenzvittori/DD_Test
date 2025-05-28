@@ -1,6 +1,6 @@
 import streamlit as st
 import numpy as np
-import battle_endine_dynamic as engine
+import battle_engine_dynamic as engine
 import time
 
 @st.cache_data(show_spinner=False)
@@ -113,36 +113,49 @@ if btn:
 
     result_placeholder = st.empty()
     sequence_placeholder = st.empty()
+    progress_text = st.empty()
 
-    with st.spinner("Searching best strategy..."):
-        for stage, army in engine.BestResultGenerator(Situation_Dict):
-            color = '#1f77b4' if army.num > 0 else '#d62728' if army.num < 0 else '#aaaa00'
-            label = '🏆 Win' if army.num > 0 else '💀 Lose' if army.num < 0 else '⚖️ Draw'
+    st.session_state["optimized"] = False
+    counter = 0
 
-            result_placeholder.markdown(
-                f"<h2 style='text-align: center; color: {color};'>{label} ({int(army.num)})</h2>",
-                unsafe_allow_html=True
-            )
+    for stage, army in engine.BestResultGenerator(Situation_Dict):
+        counter += 1
 
-            Emoji_Dict = {
-                'archi': "🏹", 
-                'spade': "🗡️",
-                'asce': "🪓",
-                'boss': "<span style='color:#d62728'> Boss</span>"
-            }
+        # 🔄 Aggiorna il messaggio con il numero di tentativi
+        progress_text.markdown(
+            f"<p style='text-align: center;'>🔍 Searching best strategy... Tried: <strong>{counter}</strong> permutations</p>",
+            unsafe_allow_html=True
+        )
 
-            armies_str = " ➙ ".join(
-                f"<span style='color:{'#1f77b4' if a.num > 0 else '#d62728'}; font-weight: bold; font-size: 20px;'>[{abs(int(a.num))}{Emoji_Dict[a.troop]}]</span>"
-                for a in stage.armies
-            )
+        color = '#1f77b4' if army.num > 0 else '#d62728' if army.num < 0 else '#aaaa00'
+        label = '🏆 Win' if army.num > 0 else '💀 Lose' if army.num < 0 else '⚖️ Draw'
 
-            sequence_placeholder.markdown(
-                f"<p style='text-align: center; font-size: 16px;'>{armies_str}</p>",
-                unsafe_allow_html=True
-            )
-            time.sleep(0.1)
+        result_placeholder.markdown(
+            f"<h2 style='text-align: center; color: {color};'>{label} ({int(army.num)})</h2>",
+            unsafe_allow_html=True
+        )
+
+        Emoji_Dict = {
+            'archi': "🏹", 
+            'spade': "🗡️",
+            'asce': "🪓",
+            'boss': "<span style='color:#d62728'> Boss</span>"
+        }
+
+        armies_str = " ➙ ".join(
+            f"<span style='color:{'#1f77b4' if a.num > 0 else '#d62728'}; font-weight: bold; font-size: 20px;'>[{abs(int(a.num))}{Emoji_Dict[a.troop]}]</span>"
+            for a in stage.armies
+        )
+
+        sequence_placeholder.markdown(
+            f"<p style='text-align: center; font-size: 16px;'>{armies_str}</p>",
+            unsafe_allow_html=True
+        )
+
+        time.sleep(0.1)
 
     st.session_state["optimized"] = True
+
 
 if st.session_state.get("optimized", False):
     st.markdown("<hr style='margin: 12px 0'>", unsafe_allow_html=True)
