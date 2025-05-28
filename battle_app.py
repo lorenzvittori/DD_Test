@@ -112,52 +112,46 @@ if btn:
         st.stop()
 
     result_placeholder = st.empty()
-    progress_text = st.empty()
     sequence_placeholder = st.empty()
-    
 
     st.session_state["optimized"] = False
 
-    for stage, army in engine.BestResultGenerator(Situation_Dict):
-        progress_text.markdown(
-            f"<p style='text-align: left;'>🔍 Searching best strategy...</strong></p>",
-            unsafe_allow_html=True
-        )
+    with st.spinner("🔄 Searching best strategy..."):
+        for stage, army in engine.BestResultGenerator(Situation_Dict):
+            color = '#1f77b4' if army.num > 0 else '#d62728' if army.num < 0 else '#aaaa00'
+            label = '🏆 Win' if army.num > 0 else '💀 Lose' if army.num < 0 else '⚖️ Draw'
 
-        color = '#1f77b4' if army.num > 0 else '#d62728' if army.num < 0 else '#aaaa00'
-        label = '🏆 Win' if army.num > 0 else '💀 Lose' if army.num < 0 else '⚖️ Draw'
+            result_placeholder.markdown(
+                f"<h2 style='text-align: center; color: {color};'>{label} ({int(army.num)})</h2>",
+                unsafe_allow_html=True
+            )
 
-        result_placeholder.markdown(
-            f"<h2 style='text-align: center; color: {color};'>{label} ({int(army.num)})</h2>",
-            unsafe_allow_html=True
-        )
+            Emoji_Dict = {
+                'archi': "🏹", 
+                'spade': "🗡️",
+                'asce': "🪓",
+                'boss': "<span style='color:#d62728'> Boss</span>"
+            }
 
-        Emoji_Dict = {
-            'archi': "🏹", 
-            'spade': "🗡️",
-            'asce': "🪓",
-            'boss': "<span style='color:#d62728'> Boss</span>"
-        }
+            armies_str = " ➙ ".join(
+                f"<span style='color:{'#1f77b4' if a.num > 0 else '#d62728'}; font-weight: bold; font-size: 20px;'>[{abs(int(a.num))}{Emoji_Dict[a.troop]}]</span>"
+                for a in stage.armies
+            )
 
-        armies_str = " ➙ ".join(
-            f"<span style='color:{'#1f77b4' if a.num > 0 else '#d62728'}; font-weight: bold; font-size: 20px;'>[{abs(int(a.num))}{Emoji_Dict[a.troop]}]</span>"
-            for a in stage.armies
-        )
+            sequence_placeholder.markdown(
+                f"<p style='text-align: center; font-size: 16px;'>{armies_str}</p>",
+                unsafe_allow_html=True
+            )
 
-        sequence_placeholder.markdown(
-            f"<p style='text-align: center; font-size: 16px;'>{armies_str}</p>",
-            unsafe_allow_html=True
-        )
-
-        time.sleep(0.1)
+            time.sleep(0.1)
 
     st.session_state["optimized"] = True
 
-    # ✅ Cambia il messaggio finale
-    progress_text.markdown(
+    st.markdown(
         "<p style='text-align: center; font-weight: bold; font-size: 18px; color: gray;'>Optimal sequence:</p>",
         unsafe_allow_html=True
     )
+
 
 
 
