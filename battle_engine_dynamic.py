@@ -145,4 +145,4 @@ def BestResultGenerator(Situation: dict):
             best_score = outcome.num
             best_stage = staged
             best_army = outcome
-            yield best_stage, best_army
+            yield best_stage, best_army, counter
