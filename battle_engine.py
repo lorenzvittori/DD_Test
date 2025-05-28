@@ -100,7 +100,7 @@ def BattleResult(stage) -> int:
 def BestResult(Situation: dict):
     # Prepara le permutazioni di battaglia
     stage = situation_to_stage(Situation)
-    all_permutations = list(itertools.permutations(stage.armies))
+    all_permutations = set(itertools.permutations(stage.armies))
 
     # Esegui tutte le battaglie e salva i risultati
     battle_results = []
