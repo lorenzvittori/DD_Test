@@ -116,10 +116,10 @@ if btn:
     progress_text = st.empty()
 
     st.session_state["optimized"] = False
-    counter = 0
+    #counter = 0
 
-    for stage, army in engine.BestResultGenerator(Situation_Dict):
-        counter += 1
+    for stage, army, counter in engine.BestResultGenerator(Situation_Dict):
+        
 
         # 🔄 Aggiorna il messaggio con il numero di tentativi
         progress_text.markdown(
