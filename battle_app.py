@@ -112,11 +112,12 @@ if btn:
         st.stop()
 
     result_placeholder = st.empty()
+    optimal_founded = st.empty()
     sequence_placeholder = st.empty()
 
     st.session_state["optimized"] = False
 
-    with st.spinner("🔄 Searching best strategy..."):
+    with st.spinner("Searching best strategy..."):
         for stage, army in engine.BestResultGenerator(Situation_Dict):
             color = '#1f77b4' if army.num > 0 else '#d62728' if army.num < 0 else '#aaaa00'
             label = '🏆 Win' if army.num > 0 else '💀 Lose' if army.num < 0 else '⚖️ Draw'
@@ -125,6 +126,7 @@ if btn:
                 f"<h2 style='text-align: center; color: {color};'>{label} ({int(army.num)})</h2>",
                 unsafe_allow_html=True
             )
+            
 
             Emoji_Dict = {
                 'archi': "🏹", 
@@ -147,7 +149,7 @@ if btn:
 
     st.session_state["optimized"] = True
 
-    st.markdown(
+    optimal_founded.markdown(
         "<p style='text-align: center; font-weight: bold; font-size: 18px; color: gray;'>Optimal sequence:</p>",
         unsafe_allow_html=True
     )
