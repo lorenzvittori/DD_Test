@@ -112,14 +112,15 @@ if btn:
         st.stop()
 
     result_placeholder = st.empty()
-    sequence_placeholder = st.empty()
     progress_text = st.empty()
+    sequence_placeholder = st.empty()
+    
 
     st.session_state["optimized"] = False
 
     for stage, army in engine.BestResultGenerator(Situation_Dict):
         progress_text.markdown(
-            f"<p style='text-align: left;'>🔍 Searching best strategy...</strong> permutations</p>",
+            f"<p style='text-align: left;'>🔍 Searching best strategy...</strong></p>",
             unsafe_allow_html=True
         )
 
@@ -154,7 +155,7 @@ if btn:
 
     # ✅ Cambia il messaggio finale
     progress_text.markdown(
-        "<p style='text-align: center; font-weight: bold; font-size: 18px; color: gray;'>✅ Optimal sequence</p>",
+        "<p style='text-align: center; font-weight: bold; font-size: 18px; color: gray;'>Optimal sequence:</p>",
         unsafe_allow_html=True
     )
 
