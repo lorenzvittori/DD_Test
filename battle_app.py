@@ -114,7 +114,7 @@ if btn:
     Emoji_Dict = {
         'archi': "🏹", 
         'spade':"🗡️",
-        'asce': "🪓",
+        'asce': "𓌏",
         'boss': "<span style='color:#d62728'> Boss</span>"
     }
 
