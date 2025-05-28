@@ -1,6 +1,6 @@
 import streamlit as st
 import numpy as np
-import battle_engine
+import battle_engine_memo as engine
 
 def parse_input(text):
     if not text:
@@ -127,7 +127,7 @@ if btn:
     }
 
     if sum(len(value) for value in Situation_Dict.values()) > 1:
-        battle_order, result = battle_engine.BestResult(Situation_Dict)
+        battle_order, result = engine.BestResult(Situation_Dict)
 
         st.session_state["optimized"] = True  # ✅ Flag impostato dopo l’ottimizzazione
 
