@@ -1,6 +1,6 @@
 import streamlit as st
 import numpy as np
-import battle_engine_memo as engine
+import battle_engine as engine
 
 def parse_input(text):
     if not text:
