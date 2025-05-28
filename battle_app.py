@@ -124,7 +124,7 @@ if btn:
         st.session_state["optimized"] = True  # ✅ Flag impostato dopo l’ottimizzazione
 
         if result.num > 0:
-            result_text = f"<h2 style='text-align: center; color: #1f77b4;'>🏆 Win ({int(result.num)})</h2>"
+            result_text = f"<h2 style='text-align: center; color: #1f77b4;'>🏆 Win (+{int(result.num)})</h2>"
         elif result.num < 0:
             result_text = f"<h2 style='text-align: center; color: #d62728;'>💀 Lose ({int(result.num)})</h2>"
         else:
