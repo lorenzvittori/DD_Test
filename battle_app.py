@@ -2,6 +2,10 @@ import streamlit as st
 import numpy as np
 import battle_engine_memo as engine
 
+@st.cache_data(show_spinner=False)
+def cached_best_result(situation):
+    return engine.BestResult(situation)
+
 def parse_input(text):
     if not text:
         return np.array([])
@@ -128,8 +132,8 @@ if btn:
 
     if sum(len(value) for value in Situation_Dict.values()) > 1:
         with st.spinner('Sto calcolando la miglior strategia...'):
-            battle_order, result = engine.BestResult(Situation_Dict)
-
+            battle_order, result = cached_best_result(Situation_Dict)
+            
         st.session_state["optimized"] = True  # ✅ Flag impostato dopo l’ottimizzazione
 
         if result.num > 0:
