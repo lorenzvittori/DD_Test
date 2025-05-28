@@ -131,8 +131,6 @@ def BattleResult(stage) -> int:
 def BestResultGenerator(Situation: dict):
     stage = situation_to_stage(Situation)
     all_permutations = permutazioni_uniche(stage.armies)
-    
-    counter = 0
 
     best_stage = None
     best_army = None
@@ -146,4 +144,4 @@ def BestResultGenerator(Situation: dict):
             best_score = outcome.num
             best_stage = staged
             best_army = outcome
-            yield best_stage, best_army, counter
+            yield best_stage, best_army
