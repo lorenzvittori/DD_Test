@@ -1,4 +1,3 @@
-import itertools
 import copy
 
 ADVANTAGE_RULE = {
@@ -15,6 +14,12 @@ class Army:
         
     def __eq__(self, other):
         return self.num == other.num and self.troop == other.troop
+    
+    def __lt__(self, other):
+        # Definiamo l'ordinamento prima per 'num', poi per 'troop'
+        if self.num != other.num:
+            return self.num < other.num
+        return self.troop < other.troop
 
     def __str__(self):
         return f"{self.num}({self.troop})"
@@ -55,6 +60,32 @@ def advantage_order(Ax: Army, Ay: Army) -> tuple | bool:
     else:
         return False
 
+#generazione di permutazioni uniche
+def permutazioni_uniche(arr):
+    arr.sort()  # ordina per gestire i duplicati
+    risultato = []
+    usati = [False] * len(arr)
+    
+    def backtrack(permutazione_corrente):
+        if len(permutazione_corrente) == len(arr):
+            risultato.append(permutazione_corrente[:])
+            return
+        
+        for i in range(len(arr)):
+            if usati[i]:
+                continue
+            # salta i duplicati: se è uguale al precedente e quello precedente non è stato usato
+            if i > 0 and arr[i] == arr[i-1] and not usati[i-1]:
+                continue
+            
+            usati[i] = True
+            permutazione_corrente.append(arr[i])
+            backtrack(permutazione_corrente)
+            permutazione_corrente.pop()
+            usati[i] = False
+    
+    backtrack([])
+    return risultato
 
 # Controlla se due armate sono alleate
 def are_allies(Ax: Army, Ay: Army) -> bool:
@@ -72,9 +103,9 @@ def single_combat(Ax: Army, Ay: Army) -> Army:
         else:
             return Army(combined_num, ty)
     else: #sono nemici
-        advantage_xy = advantage_order(Ax, Ay)
-        if advantage_xy:
-            newX, newY = advantage_xy
+        vantaggio = advantage_order(Ax, Ay)
+        if vantaggio:
+            newX, newY = vantaggio
             nx, ny = newX.num, newY.num
             tx, ty = newX.troop, newY.troop
             if abs(nx * 1.5 ) >= abs(ny):
@@ -103,7 +134,7 @@ def BattleResult(stage) -> int:
 def BestResult(Situation: dict):
     # Prepara le permutazioni di battaglia
     stage = situation_to_stage(Situation)
-    all_permutations = set(itertools.permutations(stage.armies))
+    all_permutations = permutazioni_uniche(stage.armies)
 
     # Esegui tutte le battaglie e salva i risultati
     battle_results = []
