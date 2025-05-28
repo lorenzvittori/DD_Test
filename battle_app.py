@@ -115,7 +115,7 @@ if btn:
         'archi': "🏹", 
         'spade':"🗡️",
         'asce': "🪓",
-        'boss': "<span style='color:#d62728'>Boss</span>"
+        'boss': "<span style='color:#d62728'> Boss</span>"
     }
 
     if sum(len(value) for value in Situation_Dict.values()) > 1:
@@ -135,7 +135,7 @@ if btn:
         st.markdown("<p style='text-align: center; font-weight: bold; font-size: 18px; color: gray;'>Optimal battle sequence:</p>", unsafe_allow_html=True)
 
         armies_str = " ➙ ".join(
-            f"<span style='color:{'#1f77b4' if army.num > 0 else '#d62728'}; font-weight: bold;'>[{abs(int(army.num))}{Emoji_Dict[army.troop]}]</span> "
+            f"<span style='color:{'#1f77b4' if army.num > 0 else '#d62728'}; font-weight: bold;'>[{abs(int(army.num))}{Emoji_Dict[army.troop]}]</span>"
             for army in battle_order.armies
         )
         st.markdown(f"<p style='text-align: center; font-size: 16px;'>{armies_str}</p>", unsafe_allow_html=True)
