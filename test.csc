@@ -1,7 +1,7 @@
--12,archi,30,boss,-18,boss
+-23,archi,-30,boss,-53,boss
 -29,boss,48,archi,19,archi
 -53,boss,35,spade,-18,boss
--18,boss,11,spade,29,boss
+-18,boss,-11,spade,-29,boss
 -11,archi,-12,archi,-23,archi
 -23,archi,-30,boss,-53,boss
 -53,boss,35,spade,-18,boss
