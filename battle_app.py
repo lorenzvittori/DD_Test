@@ -114,7 +114,7 @@ if btn:
     Emoji_Dict = {
         'archi': "🏹", 
         'spade':"🗡️",
-        'asce': "🔨",
+        'asce': "🪓",
         'boss': "<span style='color:#d62728'> Boss</span>"
     }
 
@@ -128,7 +128,7 @@ if btn:
         elif result.num < 0:
             result_text = f"<h2 style='text-align: center; color: #d62728;'>💀 Lose ({int(result.num)})</h2>"
         else:
-            result_text = f"<h2 style='text-align: center; color: #aaaa00;'>⚖️ Draw ({int(result.num)} - {result.troop})</h2>"
+            result_text = f"<h2 style='text-align: center; color: #aaaa00;'>⚖️ Draw (0)</h2>"
         
         st.markdown(result_text, unsafe_allow_html=True)
 
