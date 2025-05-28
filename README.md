@@ -2,6 +2,8 @@
 
 DropDuchy BattleBot is a simple battle simulation and optimization tool designed to find the best battle sequence between two opposing armies. It uses Streamlit for the user interface and a custom battle engine to calculate battle outcomes.
 
+WebApp : https://lorenzvittori-dropduchy-battlebot-battle-app-zc9ips.streamlit.app/
+
 ---
 
 ## Overview of the Battle Engine
