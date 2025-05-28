@@ -80,7 +80,15 @@ with col2:
 
 st.markdown("<hr style='margin: 6px 0'>", unsafe_allow_html=True)
 
+
+st.markdown(
+    "<p style='text-align: center; font-size: 12px; color: #888;'>"
+    "⚠️ Note: This code may be inefficient for battles with more than 9 troops."
+    "</p>", unsafe_allow_html=True
+)
 # Pulsante centrale per l'ottimizzazione
+
+
 btn = st.button("🤖 Optimize", help="Calculate the best strategy", use_container_width=True)
 
 if btn:
