@@ -75,10 +75,10 @@ def single_combat(Ax: Army, Ay: Army) -> Army:
             nx, ny = newX.num, newY.num
             tx, ty = newX.troop, newY.troop
             if abs(nx * 1.5 ) >= abs(ny):   #vince X
-                end_num = int(nx + 2 * ny / 3)
+                end_num = int(nx + 2 * ny // 3)
                 end_troop = tx
             else: #vince Y
-                end_num = int(3 * nx / 2 + ny)
+                end_num = int(3 * nx // 2 + ny)
                 end_troop = ty
         else:
             end_num = nx + ny
