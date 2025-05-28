@@ -1,6 +1,7 @@
 import streamlit as st
 import numpy as np
-import battle_engine_memo as engine
+import battle_engine as engine
+import time
 
 @st.cache_data(show_spinner=False)
 def cached_best_result(situation):
@@ -18,14 +19,13 @@ def parse_input(text):
 for key in [
     "blue_archers", "blue_swordsmen", "blue_axemen",
     "red_archers", "red_swordsmen", "red_axemen",
-    "boss", "optimized"  # Aggiunto il flag "optimized"
+    "boss", "optimized"
 ]:
     if key not in st.session_state:
         st.session_state[key] = "" if key != "optimized" else False
 
-# Funzione per azzerare tutti i campi
 def reset_fields():
-    st.session_state["optimized"] = False  # Reset del flag "optimized"
+    st.session_state["optimized"] = False
     for key in [
         "blue_archers", "blue_swordsmen", "blue_axemen",
         "red_archers", "red_swordsmen", "red_axemen",
@@ -54,44 +54,28 @@ st.markdown(
 )
 st.markdown("<hr style='margin: 6px 0'>", unsafe_allow_html=True)
 
-# Colonne Blue/Red
 col1, col2 = st.columns([1, 1])
 
 with col1:
     st.markdown("<h2 style='color: #1f77b4; text-align: center; margin-bottom: 4px;'>Blue Team</h2>", unsafe_allow_html=True)
-    st.markdown("<span style='color: #1f77b4; font-weight: bold;'>🏹 - Archers</span>", unsafe_allow_html=True)
-    blue_archers = st.text_input("", key="blue_archers", label_visibility="collapsed", placeholder="4 12")
-
-    st.markdown("<span style='color: #1f77b4; font-weight: bold;'>🗡️ - Swordsmen</span>", unsafe_allow_html=True)
-    blue_swordsmen = st.text_input("", key="blue_swordsmen", label_visibility="collapsed", placeholder="6")
-
-    st.markdown("<span style='color: #1f77b4; font-weight: bold;'>🪓 - Axemen</span>", unsafe_allow_html=True)
-    blue_axemen = st.text_input("", key="blue_axemen", label_visibility="collapsed", placeholder="")
+    blue_archers = st.text_input("🏹 - Archers", key="blue_archers", placeholder="4 12")
+    blue_swordsmen = st.text_input("🗡️ - Swordsmen", key="blue_swordsmen", placeholder="6")
+    blue_axemen = st.text_input("🪓 - Axemen", key="blue_axemen", placeholder="")
 
 with col2:
     st.markdown("<h2 style='color: #d62728; text-align: center; margin-bottom: 4px;'>Red Team</h2>", unsafe_allow_html=True)
-    st.markdown("<span style='color: #d62728; font-weight: bold;'>🏹 - Archers</span>", unsafe_allow_html=True)
-    red_archers = st.text_input("", key="red_archers", label_visibility="collapsed", placeholder="18 18 5")
-
-    st.markdown("<span style='color: #d62728; font-weight: bold;'>🗡️ - Swordsmen</span>", unsafe_allow_html=True)
-    red_swordsmen = st.text_input("", key="red_swordsmen", label_visibility="collapsed", placeholder="26 7")
-
-    st.markdown("<span style='color: #d62728; font-weight: bold;'>🪓 - Axemen</span>", unsafe_allow_html=True)
-    red_axemen = st.text_input("", key="red_axemen", label_visibility="collapsed", placeholder="9")
-
-    st.markdown("<h4 style='color: #fc9803; margin-bottom: 4px;'>🚩 Boss 🚩</h4>", unsafe_allow_html=True)
-    boss = st.text_input("", key="boss", label_visibility="collapsed", placeholder="20 160")
+    red_archers = st.text_input("🏹 - Archers", key="red_archers", placeholder="18 18 5")
+    red_swordsmen = st.text_input("🗡️ - Swordsmen", key="red_swordsmen", placeholder="26 7")
+    red_axemen = st.text_input("🪓 - Axemen", key="red_axemen", placeholder="9")
+    boss = st.text_input("🚩 Boss", key="boss", placeholder="20 160")
 
 st.markdown("<hr style='margin: 6px 0'>", unsafe_allow_html=True)
-
 
 st.markdown(
     "<p style='text-align: center; font-size: 12px; color: #888;'>"
     "⚠️ Note: This code may be inefficient for battles with more than 9 troops."
     "</p>", unsafe_allow_html=True
 )
-# Pulsante centrale per l'ottimizzazione
-
 
 btn = st.button("🤖 Optimize", help="Calculate the best strategy", use_container_width=True)
 
@@ -117,51 +101,66 @@ if btn:
     Boss_list = Boss_list[Boss_list != 0]
 
     Situation_Dict = {
-        'archi': np.concatenate((BlueArchers_list, RedArchers_list)) if BlueArchers_list.size + RedArchers_list.size > 0 else np.array([]),
-        'spade': np.concatenate((BlueSwordsmen_list, RedSwordsmen_list)) if BlueSwordsmen_list.size + RedSwordsmen_list.size > 0 else np.array([]),
-        'asce': np.concatenate((BlueAxemen_list, RedAxemen_list)) if BlueAxemen_list.size + RedAxemen_list.size > 0 else np.array([]),
+        'archi': np.concatenate((BlueArchers_list, RedArchers_list)),
+        'spade': np.concatenate((BlueSwordsmen_list, RedSwordsmen_list)),
+        'asce': np.concatenate((BlueAxemen_list, RedAxemen_list)),
         'boss': Boss_list
     }
 
-    Emoji_Dict = {
-        'archi': "🏹", 
-        'spade':"🗡️",
-        'asce': "🪓",
-        'boss': "<span style='color:#d62728'> Boss</span>"
-    }
+    if sum(len(value) for value in Situation_Dict.values()) <= 1:
+        st.warning("Please enter valid troops!")
+        st.stop()
+
+    result_placeholder = st.empty()
+    progress_text = st.empty()
+    sequence_placeholder = st.empty()
     
 
+    st.session_state["optimized"] = False
 
-    if sum(len(value) for value in Situation_Dict.values()) > 1:
-        with st.spinner('Computing best strategy...'):
-                try:
-                    battle_order, result = engine.BestResult(Situation_Dict)
-                except Exception as e:
-                    st.error(f"Errore durante il calcolo: {e}. Prova a ridurre il numero di truppe.")
-                    st.stop()  # ferma l'esecuzione qui
-            
-        st.session_state["optimized"] = True  # ✅ Flag impostato dopo l’ottimizzazione
+    for stage, army in engine.BestResultGenerator(Situation_Dict):
+        progress_text.markdown(
+            f"<p style='text-align: left;'>🔍 Searching best strategy...</strong></p>",
+            unsafe_allow_html=True
+        )
 
-        if result.num > 0:
-            result_text = f"<h2 style='text-align: center; color: #1f77b4;'>🏆 Win (+{int(result.num)})</h2>"
-        elif result.num < 0:
-            result_text = f"<h2 style='text-align: center; color: #d62728;'>💀 Lose ({int(result.num)})</h2>"
-        else:
-            result_text = f"<h2 style='text-align: center; color: #aaaa00;'>⚖️ Draw (0)</h2>"
-        
-        st.markdown(result_text, unsafe_allow_html=True)
+        color = '#1f77b4' if army.num > 0 else '#d62728' if army.num < 0 else '#aaaa00'
+        label = '🏆 Win' if army.num > 0 else '💀 Lose' if army.num < 0 else '⚖️ Draw'
 
-        st.markdown("<p style='text-align: center; font-weight: bold; font-size: 18px; color: gray;'>Optimal battle sequence:</p>", unsafe_allow_html=True)
+        result_placeholder.markdown(
+            f"<h2 style='text-align: center; color: {color};'>{label} ({int(army.num)})</h2>",
+            unsafe_allow_html=True
+        )
+
+        Emoji_Dict = {
+            'archi': "🏹", 
+            'spade': "🗡️",
+            'asce': "🪓",
+            'boss': "<span style='color:#d62728'> Boss</span>"
+        }
 
         armies_str = " ➙ ".join(
-            f"<span style='color:{'#1f77b4' if army.num > 0 else '#d62728'}; font-weight: bold; font-size: 20px;'>[{abs(int(army.num))}{Emoji_Dict[army.troop]}]</span>"
-            for army in battle_order.armies
+            f"<span style='color:{'#1f77b4' if a.num > 0 else '#d62728'}; font-weight: bold; font-size: 20px;'>[{abs(int(a.num))}{Emoji_Dict[a.troop]}]</span>"
+            for a in stage.armies
         )
-        st.markdown(f"<p style='text-align: center; font-size: 16px;'>{armies_str}</p>", unsafe_allow_html=True)
-    else:
-        st.warning("Please enter valid troops!")
 
-# Mostra il pulsante Reset solo dopo che è stata fatta un'ottimizzazione
+        sequence_placeholder.markdown(
+            f"<p style='text-align: center; font-size: 16px;'>{armies_str}</p>",
+            unsafe_allow_html=True
+        )
+
+        time.sleep(0.1)
+
+    st.session_state["optimized"] = True
+
+    # ✅ Cambia il messaggio finale
+    progress_text.markdown(
+        "<p style='text-align: center; font-weight: bold; font-size: 18px; color: gray;'>Optimal sequence:</p>",
+        unsafe_allow_html=True
+    )
+
+
+
 if st.session_state.get("optimized", False):
     st.markdown("<hr style='margin: 12px 0'>", unsafe_allow_html=True)
     st.button("🔄 Reset", key="reset_all", use_container_width=True, on_click=reset_fields)

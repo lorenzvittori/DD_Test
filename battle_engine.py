@@ -6,17 +6,15 @@ ADVANTAGE_RULE = {
     'spade': 'archi'
 }
 
-# Classe base per un'armata
 class Army:
     def __init__(self, num: int, troop: str):
         self.num = num
         self.troop = troop
-        
+
     def __eq__(self, other):
         return self.num == other.num and self.troop == other.troop
-    
+
     def __lt__(self, other):
-        # Definiamo l'ordinamento prima per 'num', poi per 'troop'
         if self.num != other.num:
             return self.num < other.num
         return self.troop < other.troop
@@ -24,7 +22,6 @@ class Army:
     def __str__(self):
         return f"{self.num}({self.troop})"
 
-# Una sequenza di armate
 class Stage:
     def __init__(self, armies):
         self.armies = list(armies)
@@ -41,7 +38,6 @@ class Stage:
     def __str__(self):
         return ' -> '.join(str(army) for army in self.armies)
 
-# Converte un dizionario in un oggetto Stage
 def situation_to_stage(situation_dict: dict) -> Stage:
     armies = [Army(num, troop) for troop in situation_dict for num in situation_dict[troop]]
     return Stage(armies)
@@ -60,55 +56,55 @@ def advantage_order(Ax: Army, Ay: Army) -> tuple | bool:
     else:
         return False
 
-#generazione di permutazioni uniche
 def permutazioni_uniche(arr):
-    arr.sort()  # ordina per gestire i duplicati
+    arr.sort()
     risultato = []
     usati = [False] * len(arr)
-    
+
     def backtrack(permutazione_corrente):
         if len(permutazione_corrente) == len(arr):
             risultato.append(permutazione_corrente[:])
             return
-        
+
         for i in range(len(arr)):
             if usati[i]:
                 continue
-            # salta i duplicati: se è uguale al precedente e quello precedente non è stato usato
-            if i > 0 and arr[i] == arr[i-1] and not usati[i-1]:
+            if i > 0 and arr[i] == arr[i - 1] and not usati[i - 1]:
                 continue
-            
+
             usati[i] = True
             permutazione_corrente.append(arr[i])
             backtrack(permutazione_corrente)
             permutazione_corrente.pop()
             usati[i] = False
-    
+
     backtrack([])
     return risultato
 
-# Controlla se due armate sono alleate
 def are_allies(Ax: Army, Ay: Army) -> bool:
     return Ax.num * Ay.num > 0
 
-# Combattimento tra due armate
+single_combat_cache = {}
+
 def single_combat(Ax: Army, Ay: Army) -> Army:
+    key = ((Ax.num, Ax.troop), (Ay.num, Ay.troop))
+
+    if key in single_combat_cache:
+        return single_combat_cache[key]
+
     nx, ny = Ax.num, Ay.num
     tx, ty = Ax.troop, Ay.troop
 
     if are_allies(Ax, Ay):
         combined_num = nx + ny
-        if abs(nx) >= abs(ny):
-            return Army(combined_num, tx)
-        else:
-            return Army(combined_num, ty)
-    else: #sono nemici
+        result = Army(combined_num, tx if abs(nx) >= abs(ny) else ty)
+    else:
         vantaggio = advantage_order(Ax, Ay)
         if vantaggio:
             newX, newY = vantaggio
             nx, ny = newX.num, newY.num
             tx, ty = newX.troop, newY.troop
-            if abs(nx * 1.5 ) >= abs(ny):
+            if abs(nx * 1.5) >= abs(ny):
                 end_num = int(nx + 2 * ny / 3)
                 end_troop = tx
             else:
@@ -117,9 +113,11 @@ def single_combat(Ax: Army, Ay: Army) -> Army:
         else:
             end_num = nx + ny
             end_troop = tx if abs(nx) >= abs(ny) else ty
-        return Army(end_num, end_troop)
+        result = Army(end_num, end_troop)
 
-# Esegue una battaglia sequenziale
+    single_combat_cache[key] = result
+    return result
+
 def Battle(stage: Stage) -> Army:
     armies = stage.armies
     result = armies[0]
@@ -130,25 +128,19 @@ def Battle(stage: Stage) -> Army:
 def BattleResult(stage) -> int:
     return Battle(stage).num
 
-
-def BestResult(Situation: dict):
-    # Prepara le permutazioni di battaglia
+def BestResultGenerator(Situation: dict):
     stage = situation_to_stage(Situation)
     all_permutations = permutazioni_uniche(stage.armies)
+    
+    best_stage = None
+    best_army = None
+    best_score = float('-inf')
 
-    # Esegui tutte le battaglie e salva i risultati
-    battle_results = []
     for permutation in all_permutations:
         staged = Stage(permutation)
         outcome = Battle(staged)
-        battle_results.append((staged, outcome))
-
-    best_result = battle_results[0]
-    best_outcome_num = best_result[1].num
-    
-    for stage, outcome in battle_results:
-        if outcome.num > best_outcome_num:
-            best_result = (stage, outcome)
-            best_outcome_num = outcome.num
-            
-    return best_result
+        if outcome.num > best_score:
+            best_score = outcome.num
+            best_stage = staged
+            best_army = outcome
+            yield best_stage, best_army
