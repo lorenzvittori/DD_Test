@@ -118,12 +118,12 @@ if btn:
     st.session_state["optimized"] = False
     #counter = 0
 
-    for stage, army, counter, number_of_perm in engine.BestResultGenerator(Situation_Dict):
+    for stage, army, counter in engine.BestResultGenerator(Situation_Dict):
         
 
         # 🔄 Aggiorna il messaggio con il numero di tentativi
         progress_text.markdown(
-            f"<p style='text-align: left;'>🔍 Searching best strategy... Tried: <strong>{counter}/{number_of_perm}</strong> permutations</p>",
+            f"<p style='text-align: left;'>🔍 Searching best strategy... Tried: <strong>{counter}</strong> permutations</p>",
             unsafe_allow_html=True
         )
 
