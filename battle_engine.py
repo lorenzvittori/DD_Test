@@ -72,15 +72,15 @@ def single_combat(Ax: Army, Ay: Army) -> Army:
         else:
             return Army(combined_num, ty)
     else: #sono nemici
-        vantaggio = advantage_order(Ax, Ay)
-        if vantaggio:
-            newX, newY = vantaggio
+        advantage_xy = advantage_order(Ax, Ay)
+        if advantage_xy:
+            newX, newY = advantage_xy
             nx, ny = newX.num, newY.num
             tx, ty = newX.troop, newY.troop
-            if abs(nx * 1.5 ) >= abs(ny):   #vince X
+            if abs(nx * 1.5 ) >= abs(ny):
                 end_num = int(nx + 2 * ny / 3)
                 end_troop = tx
-            else: #vince Y
+            else:
                 end_num = int(3 * nx / 2 + ny)
                 end_troop = ty
         else:
