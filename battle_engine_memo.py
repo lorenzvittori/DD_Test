@@ -7,7 +7,6 @@ ADVANTAGE_RULE = {
     'spade': 'archi'
 }
 
-# Classe base per un'armata
 class Army:
     def __init__(self, num: int, troop: str):
         self.num = num
@@ -24,7 +23,6 @@ class Army:
     def __str__(self):
         return f"{self.num}({self.troop})"
 
-# Una sequenza di armate
 class Stage:
     def __init__(self, armies):
         self.armies = list(armies)
@@ -41,7 +39,6 @@ class Stage:
     def __str__(self):
         return ' -> '.join(str(army) for army in self.armies)
 
-# Converte un dizionario in un oggetto Stage
 def situation_to_stage(situation_dict: dict) -> Stage:
     armies = [Army(num, troop) for troop in situation_dict for num in situation_dict[troop]]
     return Stage(armies)
@@ -60,11 +57,9 @@ def advantage_order(Ax: Army, Ay: Army) -> tuple | bool:
     else:
         return False
 
-# Controlla se due armate sono alleate
 def are_allies(Ax: Army, Ay: Army) -> bool:
     return Ax.num * Ay.num > 0
 
-# Combattimento tra due armate
 def single_combat(Ax: Army, Ay: Army) -> Army:
     nx, ny = Ax.num, Ay.num
     tx, ty = Ax.troop, Ay.troop
@@ -75,7 +70,7 @@ def single_combat(Ax: Army, Ay: Army) -> Army:
             return Army(combined_num, tx)
         else:
             return Army(combined_num, ty)
-    else: # sono nemici
+    else:
         vantaggio = advantage_order(Ax, Ay)
         if vantaggio:
             newX, newY = vantaggio
@@ -92,7 +87,6 @@ def single_combat(Ax: Army, Ay: Army) -> Army:
             end_troop = tx if abs(nx) >= abs(ny) else ty
         return Army(end_num, end_troop)
 
-# Esegue una battaglia sequenziale
 def Battle(stage: Stage) -> Army:
     armies = stage.armies
     result = armies[0]
@@ -110,8 +104,7 @@ def BestResult(Situation: dict):
     @lru_cache(maxsize=None)
     def dfs(current_army, remaining_armies):
         if not remaining_armies:
-            # Quando finisce, ritorna la armata e la sequenza (lista con solo current_army)
-            return (current_army[0], [current_army])
+            return (current_army[0], [current_army])  # (num, percorso)
 
         best_num = float('-inf')
         best_path = []
@@ -141,7 +134,8 @@ def BestResult(Situation: dict):
             best_overall_num = candidate_num
             best_overall_path = candidate_path
 
-    # Converti la migliore sequenza di tuple in oggetti Army e crea uno Stage
     best_armies = [Army(num, troop) for (num, troop) in best_overall_path]
-    return Stage(best_armies)
+    best_stage = Stage(best_armies)
+    best_army = Army(best_overall_num, best_armies[-1].troop if best_armies else 'neutral')
 
+    return (best_stage, best_army)
