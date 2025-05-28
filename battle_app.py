@@ -127,7 +127,8 @@ if btn:
     }
 
     if sum(len(value) for value in Situation_Dict.values()) > 1:
-        battle_order, result = engine.BestResult(Situation_Dict)
+        with st.spinner('Sto calcolando la miglior strategia...'):
+            battle_order, result = engine.BestResult(Situation_Dict)
 
         st.session_state["optimized"] = True  # ✅ Flag impostato dopo l’ottimizzazione
 
