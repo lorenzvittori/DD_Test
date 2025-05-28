@@ -48,7 +48,7 @@ def advantage_order(Ax: Army, Ay: Army) -> tuple | bool:
         return False
     if tx == ty: 
         return False   
-    if ADVANTAGE_RULE.get(tx) == ty:
+    if ADVANTAGE_RULE.get(tx) == tx:
         return (Ax, Ay)
     elif ADVANTAGE_RULE.get(ty) == tx:
         return (Ay, Ax)
