@@ -12,6 +12,9 @@ class Army:
     def __init__(self, num: int, troop: str):
         self.num = num
         self.troop = troop
+        
+    def __eq__(self, other):
+        return self.num == other.num and self.troop == other.troop
 
     def __str__(self):
         return f"{self.num}({self.troop})"
@@ -45,7 +48,7 @@ def advantage_order(Ax: Army, Ay: Army) -> tuple | bool:
         return False
     if tx == ty: 
         return False   
-    if ADVANTAGE_RULE.get(tx) == tx:
+    if ADVANTAGE_RULE.get(tx) == ty:
         return (Ax, Ay)
     elif ADVANTAGE_RULE.get(ty) == tx:
         return (Ay, Ax)
@@ -75,10 +78,10 @@ def single_combat(Ax: Army, Ay: Army) -> Army:
             nx, ny = newX.num, newY.num
             tx, ty = newX.troop, newY.troop
             if abs(nx * 1.5 ) >= abs(ny):   #vince X
-                end_num = int(nx + 2 * ny // 3)
+                end_num = int(nx + 2 * ny / 3)
                 end_troop = tx
             else: #vince Y
-                end_num = int(3 * nx // 2 + ny)
+                end_num = int(3 * nx / 2 + ny)
                 end_troop = ty
         else:
             end_num = nx + ny
@@ -118,5 +121,3 @@ def BestResult(Situation: dict):
             best_outcome_num = outcome.num
             
     return best_result
-
-
