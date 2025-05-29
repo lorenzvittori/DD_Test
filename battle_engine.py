@@ -171,10 +171,9 @@ def best_result_from_stage(stage: Stage):
 
     for permutation in all_permutations:
         staged = Stage(permutation)
-        #if somma_lineare(staged) < best_score: continue
         outcome = Battle(staged)
         if outcome.num > best_score:
             best_score = outcome.num
             best_stage = staged
             best_army = outcome
-            return best_stage, best_army
+    return best_stage, best_army

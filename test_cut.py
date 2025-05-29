@@ -21,18 +21,22 @@ def generate_Nstage(N, MAX_NUM_ARMY = 150):
         stage_generated.add_army(engine.Army(num_army, troop_army))
     return stage_generated
 
-"""
+
 for N in range(2, MAX_DIMENSION+1):
     print(f"Lunghezza {N}")
     for _ in range(5000):
         Nstage = generate_Nstage(N)
-        cutted_result = engine.best_result_from_stage(Nstage)[1].num
-        real_result = engine.best_result_from_stage_with_cut(Nstage)[1].num
+        cutted_result = engine.best_result_from_stage_with_cut(Nstage)[1].num
+        real_result = engine.best_result_from_stage(Nstage)[1].num
         print(f"{(cutted_result==real_result)} - Dim: {N} Cut:{cutted_result} | Real: {real_result}")
-        if not((cutted_result==real_result)): break
-"""     
+        if not((cutted_result==real_result)): 
+            cutted_result_stage, cutted_result_army = engine.best_result_from_stage_with_cut(Nstage)
+            real_result_stage, real_result_army = engine.best_result_from_stage(Nstage)
+            print(engine.Battle(cutted_result_stage), " | ", engine.Battle(real_result_stage))
+            break
+  
 
-
+"""
 tempi_f = []
 tempi_g = []
 
@@ -52,9 +56,6 @@ for _ in range(N):
     end_f = time.perf_counter()
     tempi_f.append(end_f - start_f)
 
-
-
-
     # Tempo per g
     start_g = time.perf_counter()
     engine.best_result_from_stage(x2)
@@ -67,3 +68,4 @@ media_g = sum(tempi_g) / N
 
 print(f"Tempo medio f: {media_f:.6f} secondi")
 print(f"Tempo medio g: {media_g:.6f} secondi")
+"""
