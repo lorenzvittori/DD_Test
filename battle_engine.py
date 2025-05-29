@@ -1,5 +1,6 @@
 import copy
 
+
 ADVANTAGE_RULE = {
     'archi': 'asce',
     'asce': 'spade',
@@ -84,6 +85,10 @@ def permutazioni_uniche(arr):
 def are_allies(Ax: Army, Ay: Army) -> bool:
     return Ax.num * Ay.num > 0
 
+
+
+
+
 single_combat_cache = {}
 
 def single_combat(Ax: Army, Ay: Army) -> Army:
@@ -118,6 +123,7 @@ def single_combat(Ax: Army, Ay: Army) -> Army:
     single_combat_cache[key] = result
     return result
 
+
 def Battle(stage: Stage) -> Army:
     armies = stage.armies
     result = armies[0]
@@ -125,8 +131,17 @@ def Battle(stage: Stage) -> Army:
         result = single_combat(result, enemy)
     return result
 
+
+
 def BattleResult(stage) -> int:
     return Battle(stage).num
+
+
+
+def somma_lineare(stage: Stage) -> int:
+    battle_armies = [army.num for army in stage.armies]
+    return sum(battle_armies)
+
 
 def BestResultGenerator(Situation: dict):
     stage = situation_to_stage(Situation)
@@ -144,3 +159,22 @@ def BestResultGenerator(Situation: dict):
             best_stage = staged
             best_army = outcome
             yield best_stage, best_army
+
+
+        
+def best_result_from_stage(stage: Stage):
+    all_permutations = permutazioni_uniche(stage.armies)
+    
+    best_stage = None
+    best_army = None
+    best_score = float('-inf')
+
+    for permutation in all_permutations:
+        staged = Stage(permutation)
+        #if somma_lineare(staged) < best_score: continue
+        outcome = Battle(staged)
+        if outcome.num > best_score:
+            best_score = outcome.num
+            best_stage = staged
+            best_army = outcome
+            return best_stage, best_army
