@@ -85,13 +85,16 @@ def permutazioni_uniche(arr):
 def are_allies(Ax: Army, Ay: Army) -> bool:
     return Ax.num * Ay.num > 0
 
-
-
+def allies_sum(Ax, Ay, bonus = 0):
+    nx, ny = Ax.num, Ay.num
+    tx, ty = Ax.troop, Ay.troop
+    combined_num = nx + ny + bonus*(tx == ty)
+    return Army(combined_num, tx if abs(nx) >= abs(ny) else ty)
 
 
 single_combat_cache = {}
 
-def single_combat(Ax: Army, Ay: Army) -> Army:
+def single_connection(Ax: Army, Ay: Army, bonus = 0) -> Army:
     key = ((Ax.num, Ax.troop), (Ay.num, Ay.troop))
 
     if key in single_combat_cache:
@@ -101,8 +104,8 @@ def single_combat(Ax: Army, Ay: Army) -> Army:
     tx, ty = Ax.troop, Ay.troop
 
     if are_allies(Ax, Ay):
-        combined_num = nx + ny
-        result = Army(combined_num, tx if abs(nx) >= abs(ny) else ty)
+        result = allies_sum(Ax, Ay, bonus)
+    
     else:
         vantaggio = advantage_order(Ax, Ay)
         if vantaggio:
@@ -124,11 +127,11 @@ def single_combat(Ax: Army, Ay: Army) -> Army:
     return result
 
 
-def Battle(stage: Stage) -> Army:
+def Battle(stage: Stage, bonus = 0) -> Army:
     armies = stage.armies
     result = armies[0]
     for enemy in armies[1:]:
-        result = single_combat(result, enemy)
+        result = single_connection(result, enemy, bonus)
     return result
 
 

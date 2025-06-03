@@ -61,6 +61,7 @@ with col1:
     blue_archers = st.text_input("🏹 - Archers", key="blue_archers", placeholder="4 12")
     blue_swordsmen = st.text_input("🗡️ - Swordsmen", key="blue_swordsmen", placeholder="6")
     blue_axemen = st.text_input("🪓 - Axemen", key="blue_axemen", placeholder="")
+    add_bonus = st.text_input("Bonus:", key="add_bonus", placeholder="")
 
 with col2:
     st.markdown("<h2 style='color: #d62728; text-align: center; margin-bottom: 4px;'>Red Team</h2>", unsafe_allow_html=True)
@@ -83,6 +84,8 @@ if btn:
     BlueArchers_list = parse_input(blue_archers)
     BlueSwordsmen_list = parse_input(blue_swordsmen)
     BlueAxemen_list = parse_input(blue_axemen)
+    
+    AddBonus = parse_input(add_bonus)
 
     RedArchers_list = -parse_input(red_archers)
     RedSwordsmen_list = -parse_input(red_swordsmen)
@@ -93,6 +96,7 @@ if btn:
     BlueArchers_list = BlueArchers_list[BlueArchers_list != 0]
     BlueSwordsmen_list = BlueSwordsmen_list[BlueSwordsmen_list != 0]
     BlueAxemen_list = BlueAxemen_list[BlueAxemen_list != 0]
+    AddBonusValue = AddBonus[0]
 
     RedArchers_list = RedArchers_list[RedArchers_list != 0]
     RedSwordsmen_list = RedSwordsmen_list[RedSwordsmen_list != 0]
@@ -110,6 +114,8 @@ if btn:
     if sum(len(value) for value in Situation_Dict.values()) <= 1:
         st.warning("Please enter valid troops!")
         st.stop()
+    
+    #if len(AddBonusValue)>1
 
     result_placeholder = st.empty()
     optimal_founded = st.empty()
@@ -118,7 +124,7 @@ if btn:
     st.session_state["optimized"] = False
 
     with st.spinner("Searching best strategy..."):
-        for stage, army in engine.BestResultGenerator(Situation_Dict):
+        for stage, army in engine.BestResultGenerator(Situation_Dict, AddBonusValue):
             color = '#1f77b4' if army.num > 0 else '#d62728' if army.num < 0 else '#aaaa00'
             label = '🏆 Win' if army.num > 0 else '💀 Lose' if army.num < 0 else '⚖️ Draw'
 

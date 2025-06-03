@@ -25,6 +25,8 @@ def verify_combat(army1: engine.Army, army2: engine.Army, army3: engine.Army):
         print(f"Dati: {army1} + {army2} -> {army3}")
         print(f"Calcolo: {army1} + {army2} -> {result}")
         print("----------")
+        return
+    else: print("ok")
     
 
 list_of_test = load_armies_from_csv("result_tester.csv")
