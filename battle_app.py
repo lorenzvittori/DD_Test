@@ -92,7 +92,6 @@ if btn:
     else:
         AddBonusValue = AddBonus[0]
         
-    st.warning(AddBonusValue)
 
     RedArchers_list = -parse_input(red_archers)
     RedSwordsmen_list = -parse_input(red_swordsmen)
