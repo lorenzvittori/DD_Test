@@ -2,16 +2,16 @@ import numpy as np
 import battle_engine as engine
 
 #BLU
-BLUE_ARCHI = "4 4"
-BLUE_SPADE = "5"
-BLUE_ASCE = "3"
+BLUE_ARCHI = "2 2"
+BLUE_SPADE = "10"
+BLUE_ASCE = "10"
 #BONUS
 ADD_BONUS = "20"
 
 #ROSSO
-RED_ARCHI = ""
-RED_SPADE = "12"
-RED_ASCE = "4"
+RED_ARCHI = "10"
+RED_SPADE = "10"
+RED_ASCE = "1"
 #BOSS
 BOSS = ""
 

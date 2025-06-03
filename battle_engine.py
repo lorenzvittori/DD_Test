@@ -136,8 +136,8 @@ def Battle(stage: Stage, bonus = 0) -> Army:
 
 
 
-def BattleResult(stage) -> int:
-    return Battle(stage).num
+def BattleResult(stage, bonus = 0) -> int:
+    return Battle(stage, bonus).num
 
 
 
