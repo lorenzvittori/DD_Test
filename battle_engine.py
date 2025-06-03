@@ -146,7 +146,7 @@ def somma_lineare(stage: Stage) -> int:
     return sum(battle_armies)
 
 
-def BestResultGenerator(Situation: dict):
+def BestResultGenerator(Situation: dict, bonus = 0):
     stage = situation_to_stage(Situation)
     all_permutations = permutazioni_uniche(stage.armies)
     
@@ -156,7 +156,7 @@ def BestResultGenerator(Situation: dict):
 
     for permutation in all_permutations:
         staged = Stage(permutation)
-        outcome = Battle(staged)
+        outcome = Battle(staged, bonus)
         if outcome.num > best_score:
             best_score = outcome.num
             best_stage = staged
