@@ -87,10 +87,12 @@ if btn:
     if len(AddBonus) == 0:
         AddBonusValue = 0
     elif len(AddBonus) > 1:
-        st.warning("Inserisci un solo valore per il Bonus.")
+        st.warning("Enter single bonus value")
         st.stop()
     else:
         AddBonusValue = AddBonus[0]
+        
+    st.warning(AddBonusValue)
 
     RedArchers_list = -parse_input(red_archers)
     RedSwordsmen_list = -parse_input(red_swordsmen)
