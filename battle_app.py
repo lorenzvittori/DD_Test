@@ -58,7 +58,7 @@ with col1:
     blue_archers = st.text_input("🏹 - Archers", key="blue_archers", placeholder="4 12")
     blue_swordsmen = st.text_input("🗡️ - Swordsmen", key="blue_swordsmen", placeholder="6")
     blue_axemen = st.text_input("🪓 - Axemen", key="blue_axemen", placeholder="")
-    add_bonus = st.text_input("Bonus:", key="add_bonus", placeholder="")
+    add_bonus = st.text_input("➕ Bonus:", key="add_bonus", placeholder="")
 
 with col2:
     st.markdown("<h2 style='color: #d62728; text-align: center; margin-bottom: 4px;'>Red Team</h2>", unsafe_allow_html=True)
