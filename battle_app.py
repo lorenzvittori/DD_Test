@@ -94,6 +94,7 @@ if btn:
         st.stop()
     else:
         AddBonusValue = AddBonus[0]
+        st.warning(AddBonusValue)
 
     RedArchers_list = -parse_input(red_archers)
     RedSwordsmen_list = -parse_input(red_swordsmen)
@@ -123,7 +124,6 @@ if btn:
         st.warning("Please enter valid troops!")
         st.stop()
     
-    #if len(AddBonusValue)>1
 
     result_placeholder = st.empty()
     optimal_founded = st.empty()
