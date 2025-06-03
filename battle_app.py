@@ -46,7 +46,7 @@ st.markdown("""
 
 st.markdown(
     "<p style='text-align: center; font-size: 14px; margin-top: 0; margin-bottom: 0px;'>"
-    "Enter the armies below.<br>Multiple armies of the same type should be separated by spaces. Empy boxes are considered 0."
+    "Enter the armies below.<br>Multiple armies of the same type should be separated by spacesssssss"
     "</p>", unsafe_allow_html=True
 )
 st.markdown("<hr style='margin: 6px 0'>", unsafe_allow_html=True)
