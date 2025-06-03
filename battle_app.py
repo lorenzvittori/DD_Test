@@ -19,7 +19,7 @@ def parse_input(text):
 for key in [
     "blue_archers", "blue_swordsmen", "blue_axemen",
     "red_archers", "red_swordsmen", "red_axemen",
-    "boss", "optimized"
+    "boss", "add_bonus", "optimized"
 ]:
     if key not in st.session_state:
         st.session_state[key] = "" if key != "optimized" else False
