@@ -95,7 +95,7 @@ def allies_sum(Ax, Ay, bonus = 0):
 single_combat_cache = {}
 
 def single_connection(Ax: Army, Ay: Army, bonus = 0) -> Army:
-    key = ((Ax.num, Ax.troop), (Ay.num, Ay.troop))
+    key = ((Ax.num, Ax.troop), (Ay.num, Ay.troop), bonus)
 
     if key in single_combat_cache:
         return single_combat_cache[key]
