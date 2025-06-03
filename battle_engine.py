@@ -9,7 +9,7 @@ ADVANTAGE_RULE = {
 
 class Army:
     def __init__(self, num: int, troop: str):
-        self.num = num
+        self.num = int(num)
         self.troop = troop
 
     def __eq__(self, other):
@@ -162,6 +162,23 @@ def BestResultGenerator(Situation: dict, bonus = 0):
             best_stage = staged
             best_army = outcome
             yield best_stage, best_army
+
+def best_result_from_dict(Situation: dict, bonus = 0):
+    stage = situation_to_stage(Situation)
+    all_permutations = permutazioni_uniche(stage.armies)
+    
+    best_stage = None
+    best_army = None
+    best_score = float('-inf')
+
+    for permutation in all_permutations:
+        staged = Stage(permutation)
+        outcome = Battle(staged, bonus)
+        if outcome.num > best_score:
+            best_score = outcome.num
+            best_stage = staged
+            best_army = outcome
+    return best_stage, best_army
 
 
         

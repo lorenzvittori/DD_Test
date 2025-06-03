@@ -94,7 +94,6 @@ if btn:
         st.stop()
     else:
         AddBonusValue = AddBonus[0]
-        st.warning(AddBonusValue)
 
     RedArchers_list = -parse_input(red_archers)
     RedSwordsmen_list = -parse_input(red_swordsmen)
@@ -105,7 +104,6 @@ if btn:
     BlueArchers_list = BlueArchers_list[BlueArchers_list != 0]
     BlueSwordsmen_list = BlueSwordsmen_list[BlueSwordsmen_list != 0]
     BlueAxemen_list = BlueAxemen_list[BlueAxemen_list != 0]
-    AddBonusValue = AddBonus[0]
 
     RedArchers_list = RedArchers_list[RedArchers_list != 0]
     RedSwordsmen_list = RedSwordsmen_list[RedSwordsmen_list != 0]
