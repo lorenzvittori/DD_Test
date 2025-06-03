@@ -3,9 +3,6 @@ import numpy as np
 import battle_engine as engine
 import time
 
-@st.cache_data(show_spinner=False)
-def cached_best_result(situation, bonus):
-    return engine.BestResult(situation, bonus)
 
 def parse_input(text):
     if not text:
