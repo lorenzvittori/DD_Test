@@ -119,6 +119,7 @@ if btn:
         st.warning("Please enter valid troops!")
         st.stop()
     
+    st.warning(AddBonusValue)
 
     result_placeholder = st.empty()
     optimal_founded = st.empty()
