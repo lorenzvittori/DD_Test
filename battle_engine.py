@@ -19,9 +19,17 @@ class Army:
         if self.num != other.num:
             return self.num < other.num
         return self.troop < other.troop
+    
+    def add_troop(self, n):
+        self.num = self.num + n
 
     def __str__(self):
         return f"{self.num}({self.troop})"
+    
+    def copy(self):
+        copied_num = copy.deepcopy(self.num)
+        copied_troop = copy.deepcopy(self.troop)
+        return Army(copied_num, copied_troop)
 
 class Stage:
     def __init__(self, armies):
@@ -163,6 +171,8 @@ def BestResultGenerator(Situation: dict, bonus = 0):
             best_army = outcome
             yield best_stage, best_army
 
+
+
 def best_result_from_dict(Situation: dict, bonus = 0):
     stage = situation_to_stage(Situation)
     all_permutations = permutazioni_uniche(stage.armies)
@@ -182,7 +192,7 @@ def best_result_from_dict(Situation: dict, bonus = 0):
 
 
         
-def best_result_from_stage(stage: Stage):
+def best_result_from_stage(stage: Stage, bonus = 0):
     all_permutations = permutazioni_uniche(stage.armies)
     
     best_stage = None
@@ -191,7 +201,24 @@ def best_result_from_stage(stage: Stage):
 
     for permutation in all_permutations:
         staged = Stage(permutation)
-        outcome = Battle(staged)
+        outcome = Battle(staged, bonus)
+        if outcome.num > best_score:
+            best_score = outcome.num
+            best_stage = staged
+            best_army = outcome
+    return best_stage, best_army
+
+
+def best_result_from_stage_with_cut(stage: Stage, bonus = 0):
+    all_permutations = permutazioni_uniche(stage.armies)
+    
+    best_stage = None
+    best_army = None
+    best_score = float('-inf')
+
+    for permutation in all_permutations:
+        staged = Stage(permutation)
+        outcome = Battle(staged, bonus)
         if outcome.num > best_score:
             best_score = outcome.num
             best_stage = staged
