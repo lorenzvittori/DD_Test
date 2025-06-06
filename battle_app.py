@@ -3,6 +3,8 @@ import numpy as np
 import battle_engine as engine
 import time
 
+"https://lorenzvittori-dropduchy-battlebot-battle-app-zc9ips.streamlit.app/"
+
 
 def parse_input(text):
     if not text:

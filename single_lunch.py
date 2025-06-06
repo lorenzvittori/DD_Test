@@ -4,15 +4,15 @@ import battle_engine as engine
 #-66(spade) -> 34(archi) -> 34(asce)  |  -66(spade) -> 34(asce) -> 35(archi)
 
 #BLU
-BLUE_ARCHI = "35"
+BLUE_ARCHI = ""
 BLUE_SPADE = "0"
-BLUE_ASCE = "34"
+BLUE_ASCE = ""
 #BONUS
-ADD_BONUS = "0"
+ADD_BONUS = "5"
 
 #ROSSO
-RED_ARCHI = "0"
-RED_SPADE = "66"
+RED_ARCHI = "10 10 "
+RED_SPADE = ""
 RED_ASCE = ""
 #BOSS
 BOSS = ""
