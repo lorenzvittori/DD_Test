@@ -96,7 +96,7 @@ def are_allies(Ax: Army, Ay: Army) -> bool:
 def allies_sum(Ax, Ay, bonus = 0):
     nx, ny = Ax.num, Ay.num
     tx, ty = Ax.troop, Ay.troop
-    combined_num = nx + ny + bonus*(tx == ty)
+    combined_num = nx + ny + bonus*(tx == ty)*(nx > 0)
     return Army(combined_num, tx if abs(nx) >= abs(ny) else ty)
 
 
